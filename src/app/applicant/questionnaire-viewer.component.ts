@@ -14,7 +14,7 @@ import { QuestionRendererComponent } from './question-renderer.component';
 export class QuestionnaireViewerComponent implements OnInit {
   @Input() questionnaire!: Questionnaire;
 
-  private answersSignal = signal<Record<number, any>>({});
+  protected answersSignal = signal<Record<number, any>>({});
   private visibilitySignal = signal<Record<number, boolean>>({});
 
   ngOnInit(): void {

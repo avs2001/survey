@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (dep of depsSignal(); let i = index; track i) {
+        @for (dep of depsSignal(); let i = $index; track i) {
           <tr>
             <td>{{ getQuestionByOrder(dep.sourceQuestionOrder)?.label || '#' + dep.sourceQuestionOrder }}</td>
             <td>{{ dep.sourceAnswerOptionLabel }}</td>
@@ -31,16 +31,16 @@
     </table>
   }
 
-  @if (editingDep() as edep) {
+  @if (editingDep(); as edep) {
     <div class="edit-form">
-      <h4>@if(editingIndex() === -1){Add Dependency}else{Edit Dependency}</h4>
+      <h4>{{ editingIndex() === -1 ? 'Add Dependency' : 'Edit Dependency' }}</h4>
       <form (ngSubmit)="saveDep()">
         <input-group label="Source Question" for="srcq">
           <select
             id="srcq"
             [(ngModel)]="edep.sourceQuestionOrder"
             name="srcq"
-            (change)="onSourceQuestionChange(+($event.target as HTMLSelectElement).value)">
+            (change)="onSourceQuestionChange(+$any($event.target).value)">
             @for (q of questions; track q.order) {
               <option [value]="q.order">{{ q.order }}. {{ q.label }}</option>
             }
@@ -52,7 +52,7 @@
             id="srca"
             [(ngModel)]="edep.sourceAnswerOptionLabel"
             name="srca"
-            (change)="onSourceAnswerChange(($event.target as HTMLSelectElement).value)">
+            (change)="onSourceAnswerChange($any($event.target).value)">
             @for (opt of getQuestionByOrder(edep.sourceQuestionOrder)?.answerOptions || []; track opt.label) {
               <option [value]="opt.label">{{ opt.label }}</option>
             }
@@ -64,7 +64,7 @@
             id="tgtq"
             [(ngModel)]="edep.targetQuestionOrder"
             name="tgtq"
-            (change)="onTargetQuestionChange(+($event.target as HTMLSelectElement).value)">
+            (change)="onTargetQuestionChange(+$any($event.target).value)">
             @for (q of questions; track q.order) {
               <option [value]="q.order">{{ q.order }}. {{ q.label }}</option>
             }
@@ -76,7 +76,7 @@
             id="act"
             [(ngModel)]="edep.action"
             name="act"
-            (change)="onActionChange(($event.target as HTMLSelectElement).value)">
+            (change)="onActionChange($any($event.target).value)">
             <option value="show">Show</option>
             <option value="hide">Hide</option>
           </select>

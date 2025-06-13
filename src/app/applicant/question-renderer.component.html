@@ -35,7 +35,7 @@
         <input
           type="text"
           [placeholder]="'Other...'"
-          [value]="value && !(question.answerOptions || []).some(o => o.label === value) ? value : ''"
+          [value]="manualEntryDisplay(value)"
           (input)="onTextInput($event)"
           [attr.minLength]="question.manualEntryMinLength"
           [attr.maxLength]="question.manualEntryMaxLength" />

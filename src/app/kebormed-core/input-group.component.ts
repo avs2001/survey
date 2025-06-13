@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'input-group',
   standalone: true,
+  imports: [CommonModule],
   template: `
     <div class="input-group">
       <label *ngIf="label" [for]="for">{{ label }}</label>

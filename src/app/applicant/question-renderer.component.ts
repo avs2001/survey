@@ -19,6 +19,14 @@ export class QuestionRendererComponent implements OnChanges {
   // used for multiple choice manual entry
   protected manualValue = signal('');
 
+  protected isPredefinedOption(val: string | undefined): boolean {
+    return !!val && (this.question.answerOptions?.some(o => o.label === val) ?? false);
+  }
+
+  protected manualEntryDisplay(val: string | undefined): string {
+    return val && !this.isPredefinedOption(val) ? val : '';
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('value' in changes && this.question?.type === 'multiple_choice' && this.question.allowManualEntry) {
       const val = changes['value'].currentValue as string[] | undefined;

@@ -43,7 +43,7 @@
     <div class="answer-options">
       <label>Answer Options</label>
       <ul>
-        @for (opt of q.answerOptions || []; let i = index; track i) {
+        @for (opt of q.answerOptions || []; let i = $index; track i) {
           <li>
             <input [(ngModel)]="opt.label" name="opt{{i}}" />
             <button type="button" (click)="q.answerOptions!.splice(i,1)">Remove</button>
