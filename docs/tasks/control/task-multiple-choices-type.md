@@ -12,6 +12,13 @@ Create a checklist allowing applicants to select multiple options. Administrator
 - Manual "other" entry should respect configured length limits.
 - Large sets of options could make the form difficult to navigate on small screens.
 
+## Technical Details
+- Implement a standalone checkbox group component that provides `ControlValueAccessor` integration.
+- Accept an array of choice objects with `id`, `label` and optional `disabled` properties.
+- Support `minSelections`, `maxSelections`, `randomize`, `otherAllowed` and `otherLength` inputs for configuration.
+- Track selected options in a signal array and update the form control value accordingly.
+- Use `OnPush` change detection and emit validation errors when the selection count is outside the configured bounds.
+
 ## Related Tasks
 - [task-single-choice-type.md](task-single-choice-type.md)
 - [../task-applicant-interface.md](../task-applicant-interface.md)

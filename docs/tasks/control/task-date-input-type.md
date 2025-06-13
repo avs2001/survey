@@ -13,5 +13,12 @@ Support a date input that can restrict acceptable dates using minimum and maximu
 - Time zone differences might cause valid dates to appear invalid.
 - Configuration where the minimum date is after the maximum date should raise an admin warning.
 
+## Technical Details
+- Implement the control as a standalone component using `ControlValueAccessor` so it works with Angular reactive forms.
+- Expose `@Input()` properties for `minDate`, `maxDate`, `placeholder` and `required` flags.
+- Leverage an Angular Material date picker or an HTML5 `<input type="date">` element for the UI.
+- Validate the selected date against the configured range and emit meaningful errors via the form control.
+- Use the `OnPush` change detection strategy and signals to track the current value.
+
 ## Related Tasks
 - [../task-applicant-interface.md](../task-applicant-interface.md)
