@@ -1,7 +1,11 @@
 # Multiple Choices Control
 
 ## Description
-Create a checklist allowing applicants to select multiple options. Administrators define the available choices, specify a required minimum selection count, and may allow an "other" text entry with length limits. They can also set a maximum selection count and optionally randomize the order of options each time the form loads.
+Create a checklist allowing applicants to select multiple options. Administrators
+define the available choices, specify a required minimum selection count, and may
+allow an "other" text entry with configurable minimum and maximum length limits.
+They can also set a maximum selection count and optionally randomize the order of
+options each time the form loads.
 
 ## Preconditions
 - Questionnaire administration interface exists.
@@ -9,13 +13,14 @@ Create a checklist allowing applicants to select multiple options. Administrator
 
 ## Potential Errors or Edge Cases
 - Users submitting fewer selections than required must see a validation error.
-- Manual "other" entry should respect configured length limits.
+- Manual "other" entry should respect the configured minimum and maximum length limits.
 - Large sets of options could make the form difficult to navigate on small screens.
 
 ## Technical Details
 - Implement a standalone checkbox group component that provides `ControlValueAccessor` integration.
 - Accept an array of choice objects with `id`, `label` and optional `disabled` properties.
-- Support `minSelections`, `maxSelections`, `randomize`, `otherAllowed` and `otherLength` inputs for configuration.
+- Support `minSelections`, `maxSelections`, `randomize`, `otherAllowed` and
+  `otherLength` (object with `min` and `max`) inputs for configuration.
 - Track selected options in a signal array and update the form control value accordingly.
 - Use `OnPush` change detection and emit validation errors when the selection count is outside the configured bounds.
 
