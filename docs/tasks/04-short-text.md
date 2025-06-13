@@ -1,4 +1,30 @@
 # Task: Short Text Input
 
-Implement a short text input control with configurable minimum and maximum length. Validation should prevent submission if the input length is outside the allowed range.
+Build the short text question type used throughout the Sephora Accelerate questionnaire. This component gathers information such as brand name or contact details as described in `docs/project-description.md` and must integrate with the dynamic survey flow in `docs/user-needs.md`.
+
+## Details
+- Provide a text input field for single-line answers.
+- Administrators must be able to configure:
+  - Label and optional placeholder.
+  - Minimum and maximum allowed length.
+  - Whether answering is mandatory.
+- Enforce these rules in real time and on form submission.
+- Display clear validation messages when limits are violated or a required field is empty.
+- Integrate with the dynamic questionnaire builder so the live preview updates instantly.
+- Support dependencies between questions. The control must hide or show based on upstream answers as described in `docs/user-needs.md`.
+- Styling should follow the theming system from `docs/project.md` and use CSS custom properties.
+
+## Technical Notes
+- Implement a standalone Angular component named `ShortTextQuestionComponent` in `shared/components/questions`.
+- Use an `@Input()` `config` object providing `label`, `placeholder`, `minLength`, `maxLength` and `required` flags.
+- Define a `ShortTextQuestionConfig` interface describing the configuration fields.
+- Create a `FormControl` with Angular validators for length and required status.
+- Store the current answer in a `signal<string>` and expose a computed signal for validity so template bindings stay synchronous.
+- Expose the control's value and validity via `@Output()` events so the builder can consume changes.
+- Display validation messages inline. Styles should rely on CSS custom properties defined by the questionnaire theme.
+- Component state should be managed with Angular signals where possible. Use on-push change detection.
+- Use a `signal<boolean>` to track whether the question is currently visible when dependencies toggle its state.
+- Ensure the component supports dynamic show/hide transitions so dependencies between questions work smoothly.
+- Files reside in `src/app/shared/components/questions/short-text-question.component.{ts,html,scss}` with two-space indentation and single quotes.
+- Include a unit test spec under the same path to validate emitted values and validation rules.
 
