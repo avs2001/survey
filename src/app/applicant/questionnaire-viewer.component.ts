@@ -1,13 +1,13 @@
 import { Component, Input, signal, effect, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Questionnaire, Question, Dependency } from '../models/questionnaire.model';
-import { InputGroupComponent } from '../kebormed-core/input-group.component';
+import { Questionnaire } from '../models/questionnaire.model';
+import { QuestionRendererComponent } from './question-renderer.component';
 
 @Component({
   selector: 'app-questionnaire-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputGroupComponent],
+  imports: [CommonModule, FormsModule, QuestionRendererComponent],
   templateUrl: './questionnaire-viewer.component.html',
   styleUrls: ['./questionnaire-viewer.component.scss']
 })
@@ -70,13 +70,6 @@ export class QuestionnaireViewerComponent implements OnInit {
     this.answersSignal.update(a => ({ ...a, [order]: value }));
   }
 
-  protected onAnswerMultiChange(order: number, label: string, checked: boolean) {
-    this.answersSignal.update(a => {
-      const existing = (a[order] as string[]) || [];
-      const next = checked ? [...existing, label] : existing.filter(l => l !== label);
-      return { ...a, [order]: next };
-    });
-  }
 
   protected submit() {
     const answers = this.answersSignal();
