@@ -1,59 +1,98 @@
-# Survey
+# Sephora Accelerate Questionnaire Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+## Project Description
 
-## Development server
+The Sephora Accelerate Questionnaire Project provides a complete solution for creating, managing, and completing dynamic questionnaires used by the Sephora Accelerate Program.
 
-To start a local development server, run:
+### Admin Portal
+- Allows administrators to build and update questionnaires.
+- Supports defining complex dependencies between questions.
+- Publishes questionnaires for use in the Applicant Portal.
 
-```bash
-ng serve
+### Applicant Portal
+- Enables applicants to fill out questionnaires dynamically rendered from data.
+- Honors question dependencies during completion.
+- Validates input and submits responses for storage.
+
+## Technologies Used
+
+- **Angular 20**
+- **TypeScript**
+- **@kebormed/core**
+- **@kebormed/kit**
+- **RxJS**
+- **Signals**
+- **Modern Angular control flow** (`@if`, `@for`)
+
+## Project Structure
+
+```
+apps/
+  admin-portal/        # Angular project for administrators
+  applicant-portal/    # Angular project for applicants
+libs/
+  shared/              # Shared models and utilities
+  ui-components/       # Optional reusable UI pieces
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## How to Run the Project
 
-## Code scaffolding
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd survey
+   ```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+3. **Run Admin Portal**
+   ```bash
+   npm run ng -- serve apps/admin-portal
+   ```
+4. **Run Applicant Portal**
+   ```bash
+   npm run ng -- serve apps/applicant-portal
+   ```
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Both applications will start on different ports as configured in `angular.json`.
 
+## Key Components
+
+- **QuestionnaireViewerComponent** – Displays questionnaires in the Applicant Portal.
+- **QuestionRendererComponent** – Renders individual questions with validation.
+- **QuestionnaireEditorComponent** – Provides an interface for editing questionnaires.
+- **DependencyEditorComponent** – Lets admins manage question dependencies.
+- **QuestionEditorComponent** – Form for editing a single question.
+
+## Services
+
+- **QuestionnaireService** – Handles loading, saving, and publishing questionnaires.
+- **ResponseService** – Submits applicant responses.
+
+## How to Contribute
+
+1. **Branching model** – Use feature branches off `main` and submit pull requests.
+2. **Code style guidelines** – Follow Angular and TypeScript best practices. Keep components standalone and leverage `@kebormed/core` components.
+3. **Using signals and modern Angular features** – Prefer signals over observables for local component state and utilize control flow syntax (`@if`, `@for`).
+
+## Testing
+
+Unit and component tests should be placed alongside the source files using Jasmine and Karma. If a `TESTING.md` file exists, follow the guidelines described there.
+
+To run tests:
 ```bash
-ng generate component component-name
+npm test
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## License
 
-```bash
-ng generate --help
-```
+This project is currently released under a placeholder license.
 
-## Building
+## Future Improvements
 
-To build the project run:
+- Support for multi-language questionnaires
+- Backend integration
+- User authentication
+- Analytics for questionnaire usage
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
