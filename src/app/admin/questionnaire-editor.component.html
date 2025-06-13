@@ -121,4 +121,11 @@
       </form>
     </div>
   }
+  @if (showDependencies()) {
+    <app-dependency-editor
+      [questions]="questionsSignal()"
+      [initialDependencies]="dependenciesSignal()"
+      (dependenciesChange)="onDependenciesChange($event)">
+    </app-dependency-editor>
+  }
 </div>
