@@ -36,7 +36,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern || undefined"
+              [pattern]="q.pattern as string | RegExp"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-short-text>
@@ -49,7 +49,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern || undefined"
+              [pattern]="q.pattern as string | RegExp"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-long-text>
