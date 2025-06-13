@@ -9,7 +9,7 @@ import { Question, QuestionType } from './question.model';
   template: `
     <h2>Questions</h2>
     <ul>
-      @for (q of questions(); track q.id; index i) {
+      @for (q of questions(); track q.id; let i = index) {
         <li>
           <input [ngModel]="q.id" (ngModelChange)="updateQuestion(i, { id: $event })" placeholder="Id" />
           <input [ngModel]="q.label" (ngModelChange)="updateQuestion(i, { label: $event })" placeholder="Label" />
@@ -28,13 +28,34 @@ import { Question, QuestionType } from './question.model';
     </ul>
     <h3>Add Question</h3>
     <form (ngSubmit)="addQuestion()" #f="ngForm">
-      <input name="id" [(ngModel)]="newQuestion.id" placeholder="Id" required />
-      <input name="label" [(ngModel)]="newQuestion.label" placeholder="Label" required />
-      <select name="type" [(ngModel)]="newQuestion.type">
+      <input
+        name="id"
+        [ngModel]="newQuestion().id"
+        (ngModelChange)="newQuestion.update(q => ({ ...q, id: $event }))"
+        placeholder="Id"
+        required
+      />
+      <input
+        name="label"
+        [ngModel]="newQuestion().label"
+        (ngModelChange)="newQuestion.update(q => ({ ...q, label: $event }))"
+        placeholder="Label"
+        required
+      />
+      <select
+        name="type"
+        [ngModel]="newQuestion().type"
+        (ngModelChange)="newQuestion.update(q => ({ ...q, type: $event }))"
+      >
         @for (t of types; track t) { <option [ngValue]="t">{{ t }}</option> }
       </select>
       <label>
-        <input type="checkbox" name="required" [(ngModel)]="newQuestion.required" />
+        <input
+          type="checkbox"
+          name="required"
+          [ngModel]="newQuestion().required"
+          (ngModelChange)="newQuestion.update(q => ({ ...q, required: $event }))"
+        />
         Required
       </label>
       <button type="submit">Add</button>
@@ -58,16 +79,20 @@ export class QuestionnaireAdminComponent {
   addQuestion(): void {
     const q = this.newQuestion();
     if (!q.id || !q.label) return;
-    this.questions.update(qs => [...qs, { ...q }]);
+    this.questions.update(qs => [...qs, { ...q } as Question]);
     this.newQuestion.set({ id: '', label: '', type: 'shortText', required: false });
   }
 
   updateQuestion(index: number, patch: Partial<Question>): void {
-    this.questions.update(qs => qs.toSpliced(index, 1, { ...qs[index], ...patch } as Question));
+    this.questions.update(qs => {
+      const copy = [...qs];
+      copy[index] = { ...copy[index], ...patch } as Question;
+      return copy;
+    });
   }
 
   deleteQuestion(index: number): void {
-    this.questions.update(qs => qs.toSpliced(index, 1));
+    this.questions.update(qs => qs.filter((_, i) => i !== index));
   }
 
   moveUp(index: number): void {

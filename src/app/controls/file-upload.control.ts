@@ -13,7 +13,13 @@ import { UPLOAD_SERVICE, UploadService } from './upload-service.token';
   }],
   template: `
     <label [attr.for]="id">{{ label }}</label>
-    <input type="file" [id]="id" [attr.accept]="accept" (change)="fileSelected($event)" />
+    <input
+      type="file"
+      [id]="id"
+      [attr.accept]="accept"
+      [attr.placeholder]="placeholder"
+      (change)="fileSelected($event)"
+    />
     @if (fileName()) {<span>{{ fileName() }}</span> <button type="button" (click)="remove()">Remove</button>}
   `,
   styles: [':host{display:block;}'],
@@ -25,6 +31,7 @@ export class FileUploadControl implements SurveyControl<File | null> {
   @Input() required = false;
   @Input() accept?: string;
   @Input() maxSize = 0;
+  @Input() placeholder?: string;
 
   value = signal<File | null>(null);
   fileName = signal('');
