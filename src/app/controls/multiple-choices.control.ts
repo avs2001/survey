@@ -1,4 +1,4 @@
-import { Component, Input, signal, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import { Component, Input, signal, ChangeDetectionStrategy, forwardRef, computed } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
 import { SurveyControl } from './survey-control';
 
@@ -19,7 +19,7 @@ export interface Choice {
   template: `
     <fieldset>
       <legend>{{ label }}</legend>
-      @for (c of options(); track c.id) {
+      @for (c of options; track c.id) {
         <label>
           <input type="checkbox" [disabled]="c.disabled" [checked]="selected().includes(c.id)" (change)="toggle(c.id, $any($event.target).checked)" />
           {{ c.label }}
@@ -49,6 +49,12 @@ export class MultipleChoicesControl implements SurveyControl<(string | { other: 
 
   selected = signal<string[]>([]);
   other = signal('');
+  value = computed(() => {
+    const ids = this.selected();
+    const arr: (string | { other: string })[] = [...ids];
+    if (this.otherAllowed && this.other()) arr.push({ other: this.other() });
+    return arr;
+  });
 
   private onChange = (v: (string | { other: string })[]) => {};
   private onTouched = () => {};
