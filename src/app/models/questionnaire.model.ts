@@ -8,12 +8,35 @@ export interface Questionnaire {
 
 export interface Question {
   order: number;
-  type: 'short_text' | 'long_text' | 'single_choice' | 'multiple_choice' | 'date' | 'file_upload' | 'video_link';
+  type:
+    | 'short_text'
+    | 'long_text'
+    | 'single_choice'
+    | 'multiple_choice'
+    | 'date'
+    | 'file_upload'
+    | 'video_link';
   label: string;
   initialVisibility: 'show' | 'hidden';
   isRequired: boolean;
-  options?: string[]; // for choice questions
-  allowedFileTypes?: string; // for file_upload
+  /** Text type specific */
+  minLength?: number;
+  maxLength?: number;
+  /** Choice type specific */
+  answerOptions?: { label: string }[];
+  allowManualEntry?: boolean;
+  manualEntryMinLength?: number;
+  manualEntryMaxLength?: number;
+  minSelections?: number;
+  /** Date type specific */
+  minDate?: string;
+  maxDate?: string;
+  /** File upload specific */
+  acceptedFileTypes?: string[];
+  maxFileSizeMB?: number;
+  /** Backwards compatibility fields */
+  options?: string[];
+  allowedFileTypes?: string;
 }
 
 export interface Dependency {
