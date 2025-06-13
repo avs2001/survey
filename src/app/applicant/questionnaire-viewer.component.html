@@ -1,0 +1,42 @@
+<form (ngSubmit)="submit()" *ngIf="questionnaire as q">
+  @for (question of q.questions; track question.order) {
+    @if (isVisible(question.order)) {
+      <input-group [label]="question.label" [for]="'q'+question.order">
+        @switch (question.type) {
+          @case ('short_text') {
+            <input id="{{'q'+question.order}}" type="text" [required]="question.isRequired" [value]="answersSignal()[question.order] || ''" (input)="onAnswerChange(question.order, $any($event.target).value)" />
+          }
+          @case ('long_text') {
+            <textarea id="{{'q'+question.order}}" [required]="question.isRequired" (input)="onAnswerChange(question.order, $any($event.target).value)">{{answersSignal()[question.order] || ''}}</textarea>
+          }
+          @case ('single_choice') {
+            <div class="option" *ngFor="let opt of question.options">
+              <label>
+                <input type="radio" name="{{'q'+question.order}}" [value]="opt" [checked]="answersSignal()[question.order] === opt" (change)="onAnswerChange(question.order, opt)" [required]="question.isRequired" />
+                {{ opt }}
+              </label>
+            </div>
+          }
+          @case ('multiple_choice') {
+            <div class="option" *ngFor="let opt of question.options">
+              <label>
+                <input type="checkbox" [value]="opt" [checked]="(answersSignal()[question.order] || []).includes(opt)" (change)="onAnswerMultiChange(question.order, opt, $any($event.target).checked)" />
+                {{ opt }}
+              </label>
+            </div>
+          }
+          @case ('date') {
+            <input id="{{'q'+question.order}}" type="date" [required]="question.isRequired" [value]="answersSignal()[question.order] || ''" (change)="onAnswerChange(question.order, $any($event.target).value)" />
+          }
+          @case ('file_upload') {
+            <input id="{{'q'+question.order}}" type="file" [attr.accept]="question.allowedFileTypes" (change)="onAnswerChange(question.order, $any($event.target).files?.[0])" [required]="question.isRequired" />
+          }
+          @case ('video_link') {
+            <input id="{{'q'+question.order}}" type="text" placeholder="Video URL" [required]="question.isRequired" [value]="answersSignal()[question.order] || ''" (input)="onAnswerChange(question.order, $any($event.target).value)" />
+          }
+        }
+      </input-group>
+    }
+  }
+  <button type="submit">Submit</button>
+</form>
