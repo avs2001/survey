@@ -16,6 +16,7 @@ This repository contains an Angular project. Follow these guidelines when modify
   
 
 - **Documentation**
+  - Use docs/project-description.md and docs/user-needs.md for project documentation.
   - Document new features or notable changes in `docs/` when appropriate.
 
 - **Pre-commit Checks**
