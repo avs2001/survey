@@ -1,0 +1,101 @@
+<form (ngSubmit)="onSave()" *ngIf="editing() as q">
+  <input-group label="Order" for="order">
+    <input id="order" type="number" [(ngModel)]="q.order" name="order" required />
+  </input-group>
+
+  <input-group label="Type" for="type">
+    <select id="type" [(ngModel)]="q.type" name="type">
+      <option value="short_text">Short Text</option>
+      <option value="long_text">Long Text</option>
+      <option value="single_choice">Single Choice</option>
+      <option value="multiple_choice">Multiple Choice</option>
+      <option value="date">Date</option>
+      <option value="file_upload">File Upload</option>
+      <option value="video_link">Video Link</option>
+    </select>
+  </input-group>
+
+  <input-group label="Label" for="label">
+    <input id="label" type="text" [(ngModel)]="q.label" name="label" required />
+  </input-group>
+
+  <input-group label="Initial Visibility" for="vis">
+    <select id="vis" [(ngModel)]="q.initialVisibility" name="vis">
+      <option value="show">Show</option>
+      <option value="hidden">Hidden</option>
+    </select>
+  </input-group>
+
+  <input-group label="Required" for="req">
+    <input id="req" type="checkbox" [(ngModel)]="q.isRequired" name="req" />
+  </input-group>
+
+  @if (q.type === 'short_text' || q.type === 'long_text') {
+    <input-group label="Min Length" for="minlen">
+      <input id="minlen" type="number" [(ngModel)]="q.minLength" name="minlen" />
+    </input-group>
+    <input-group label="Max Length" for="maxlen">
+      <input id="maxlen" type="number" [(ngModel)]="q.maxLength" name="maxlen" />
+    </input-group>
+  }
+
+  @if (q.type === 'single_choice' || q.type === 'multiple_choice') {
+    <div class="answer-options">
+      <label>Answer Options</label>
+      <ul>
+        @for (opt of q.answerOptions || []; let i = index; track i) {
+          <li>
+            <input [(ngModel)]="opt.label" name="opt{{i}}" />
+            <button type="button" (click)="q.answerOptions!.splice(i,1)">Remove</button>
+          </li>
+        }
+      </ul>
+      <button type="button" (click)="(q.answerOptions = q.answerOptions || []).push({label: ''})">Add Option</button>
+    </div>
+    <input-group label="Allow Manual Entry" for="allowme">
+      <input id="allowme" type="checkbox" [(ngModel)]="q.allowManualEntry" name="allowme" />
+    </input-group>
+    @if (q.allowManualEntry) {
+      <input-group label="Manual Entry Min Length" for="memin">
+        <input id="memin" type="number" [(ngModel)]="q.manualEntryMinLength" name="memin" />
+      </input-group>
+      <input-group label="Manual Entry Max Length" for="memax">
+        <input id="memax" type="number" [(ngModel)]="q.manualEntryMaxLength" name="memax" />
+      </input-group>
+    }
+    @if (q.type === 'multiple_choice') {
+      <input-group label="Min Selections" for="minsel">
+        <input id="minsel" type="number" [(ngModel)]="q.minSelections" name="minsel" />
+      </input-group>
+    }
+  }
+
+  @if (q.type === 'date') {
+    <input-group label="Min Date" for="mindate">
+      <input id="mindate" type="date" [(ngModel)]="q.minDate" name="mindate" />
+    </input-group>
+    <input-group label="Max Date" for="maxdate">
+      <input id="maxdate" type="date" [(ngModel)]="q.maxDate" name="maxdate" />
+    </input-group>
+  }
+
+  @if (q.type === 'file_upload') {
+    <input-group label="Accepted File Types (comma separated)" for="aft">
+      <input id="aft" type="text" [(ngModel)]="q.acceptedFileTypesStr" name="aft" />
+    </input-group>
+    <input-group label="Max File Size MB" for="maxfs">
+      <input id="maxfs" type="number" [(ngModel)]="q.maxFileSizeMB" name="maxfs" />
+    </input-group>
+  }
+
+  @if (q.type === 'video_link') {
+    <input-group label="Accepted File Types (comma separated)" for="vft">
+      <input id="vft" type="text" [(ngModel)]="q.acceptedFileTypesStr" name="vft" />
+    </input-group>
+  }
+
+  <div class="buttons">
+    <button type="submit">Save</button>
+    <button type="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>
