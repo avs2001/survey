@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputGroupComponent } from '../kebormed-core/input-group.component';
 import { Questionnaire, Question, Dependency } from '../models/questionnaire.model';
+import { DependencyEditorComponent } from './dependency-editor.component';
 
 function createEmptyQuestion(order: number): Question & { acceptedFileTypesStr?: string } {
   return {
@@ -18,7 +19,7 @@ function createEmptyQuestion(order: number): Question & { acceptedFileTypesStr?:
 @Component({
   selector: 'app-questionnaire-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputGroupComponent],
+  imports: [CommonModule, FormsModule, InputGroupComponent, DependencyEditorComponent],
   templateUrl: './questionnaire-editor.component.html',
   styleUrls: ['./questionnaire-editor.component.scss']
 })
@@ -27,6 +28,7 @@ export class QuestionnaireEditorComponent {
   protected dependenciesSignal = signal<Dependency[]>([]);
   protected editingIndex = signal<number | null>(null);
   protected editingQuestion = signal<(Question & { acceptedFileTypesStr?: string }) | null>(null);
+  protected showDependencies = signal(false);
 
   protected addQuestion() {
     const nextOrder = this.questionsSignal().length + 1;
@@ -98,7 +100,11 @@ export class QuestionnaireEditorComponent {
   }
 
   protected openDependencies() {
-    console.log('Open dependency editor - TODO');
+    this.showDependencies.set(!this.showDependencies());
+  }
+
+  protected onDependenciesChange(deps: Dependency[]) {
+    this.dependenciesSignal.set(deps);
   }
 
   protected saveQuestionnaire() {

@@ -1,0 +1,92 @@
+<div class="dependency-editor">
+  <h3>Question Dependencies</h3>
+
+  <button type="button" (click)="startAdd()">Add Dependency</button>
+
+  @if (depsSignal().length) {
+    <table class="deps-table">
+      <thead>
+        <tr>
+          <th>Source Question</th>
+          <th>Source Answer</th>
+          <th>Target Question</th>
+          <th>Action</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (dep of depsSignal(); let i = index; track i) {
+          <tr>
+            <td>{{ getQuestionByOrder(dep.sourceQuestionOrder)?.label || '#' + dep.sourceQuestionOrder }}</td>
+            <td>{{ dep.sourceAnswerOptionLabel }}</td>
+            <td>{{ getQuestionByOrder(dep.targetQuestionOrder)?.label || '#' + dep.targetQuestionOrder }}</td>
+            <td>{{ dep.action }}</td>
+            <td>
+              <button type="button" (click)="startEdit(i)">Edit</button>
+              <button type="button" (click)="deleteDep(i)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (editingDep() as edep) {
+    <div class="edit-form">
+      <h4>@if(editingIndex() === -1){Add Dependency}else{Edit Dependency}</h4>
+      <form (ngSubmit)="saveDep()">
+        <input-group label="Source Question" for="srcq">
+          <select
+            id="srcq"
+            [(ngModel)]="edep.sourceQuestionOrder"
+            name="srcq"
+            (change)="onSourceQuestionChange(+($event.target as HTMLSelectElement).value)">
+            @for (q of questions; track q.order) {
+              <option [value]="q.order">{{ q.order }}. {{ q.label }}</option>
+            }
+          </select>
+        </input-group>
+
+        <input-group label="Source Answer Option" for="srca">
+          <select
+            id="srca"
+            [(ngModel)]="edep.sourceAnswerOptionLabel"
+            name="srca"
+            (change)="onSourceAnswerChange(($event.target as HTMLSelectElement).value)">
+            @for (opt of getQuestionByOrder(edep.sourceQuestionOrder)?.answerOptions || []; track opt.label) {
+              <option [value]="opt.label">{{ opt.label }}</option>
+            }
+          </select>
+        </input-group>
+
+        <input-group label="Target Question" for="tgtq">
+          <select
+            id="tgtq"
+            [(ngModel)]="edep.targetQuestionOrder"
+            name="tgtq"
+            (change)="onTargetQuestionChange(+($event.target as HTMLSelectElement).value)">
+            @for (q of questions; track q.order) {
+              <option [value]="q.order">{{ q.order }}. {{ q.label }}</option>
+            }
+          </select>
+        </input-group>
+
+        <input-group label="Action" for="act">
+          <select
+            id="act"
+            [(ngModel)]="edep.action"
+            name="act"
+            (change)="onActionChange(($event.target as HTMLSelectElement).value)">
+            <option value="show">Show</option>
+            <option value="hide">Hide</option>
+          </select>
+        </input-group>
+
+        <button type="submit">Save</button>
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  }
+
+  <button type="button" (click)="emitChanges()">Save Dependencies</button>
+</div>
