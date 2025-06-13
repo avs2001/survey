@@ -12,7 +12,7 @@ import { SurveyControl } from './survey-control';
   }],
   template: `
     <label [attr.for]="id">{{ label }}</label>
-    <input type="text" [id]="id" [attr.placeholder]="placeholder" [attr.minlength]="minLength" [attr.maxlength]="maxLength" [pattern]="pattern?.source" [value]="value()" (input)="change($any($event.target).value)" (blur)="touched()" />
+    <input type="text" [id]="id" [attr.placeholder]="placeholder" [attr.minlength]="minLength" [attr.maxlength]="maxLength" [pattern]="typeof pattern === 'string' ? pattern : pattern?.source" [value]="value()" (input)="change($any($event.target).value)" (blur)="touched()" />
   `,
   styles: [':host{display:block;}'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,7 +24,7 @@ export class DirectShortTextControl implements SurveyControl<string> {
   @Input() placeholder?: string;
   @Input() minLength?: number;
   @Input() maxLength?: number;
-  @Input() pattern?: RegExp;
+  @Input() pattern?: string | RegExp;
 
   value = signal('');
   private onChange = (v: string) => {};
@@ -56,7 +56,8 @@ export class DirectShortTextControl implements SurveyControl<string> {
     if (!v) return this.required ? { required: true } : null;
     if (this.minLength && v.length < this.minLength) return { minLength: true };
     if (this.maxLength && v.length > this.maxLength) return { maxLength: true };
-    if (this.pattern && !this.pattern.test(v)) return { pattern: true };
+    const regex = typeof this.pattern === 'string' ? new RegExp(this.pattern) : this.pattern;
+    if (regex && !regex.test(v)) return { pattern: true };
     return null;
   }
 }
