@@ -7,7 +7,7 @@
   <div class="questions" *ngIf="questionsSignal().length">
     <h3>Questions</h3>
     <ol>
-      @for (q of questionsSignal(); let i = index; track q.order) {
+      @for (q of questionsSignal(); let i = $index; track q.order) {
         <li>
           <div class="question-header">
             <span>{{ q.order }}. {{ q.label || '(no label)' }} ({{ q.type }})</span>
@@ -21,9 +21,9 @@
     </ol>
   </div>
 
-  @if (editingQuestion() as eq) {
+  @if (editingQuestion(); as eq) {
     <div class="edit-form">
-      <h3>@if(editingIndex() === -1){Add Question}else{Edit Question}</h3>
+      <h3>{{ editingIndex() === -1 ? 'Add Question' : 'Edit Question' }}</h3>
       <form (ngSubmit)="saveQuestion()">
         <input-group label="Label" for="label">
           <input id="label" type="text" [(ngModel)]="eq.label" name="label" required />
@@ -65,7 +65,7 @@
           <div class="answer-options">
             <label>Answer Options</label>
             <ul>
-              @for (opt of eq.answerOptions || []; let oi = index; track oi) {
+              @for (opt of eq.answerOptions || []; let oi = $index; track oi) {
                 <li>
                   <input [(ngModel)]="opt.label" name="opt{{oi}}" />
                   <button type="button" (click)="eq.answerOptions!.splice(oi,1)">Remove</button>
