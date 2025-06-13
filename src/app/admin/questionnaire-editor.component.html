@@ -1,0 +1,124 @@
+<div class="editor">
+  <h2>Questionnaire Editor</h2>
+  <button type="button" (click)="addQuestion()">Add Question</button>
+  <button type="button" (click)="openDependencies()">Edit Dependencies</button>
+  <button type="button" (click)="saveQuestionnaire()">Save Questionnaire</button>
+
+  <div class="questions" *ngIf="questionsSignal().length">
+    <h3>Questions</h3>
+    <ol>
+      @for (q of questionsSignal(); let i = index; track q.order) {
+        <li>
+          <div class="question-header">
+            <span>{{ q.order }}. {{ q.label || '(no label)' }} ({{ q.type }})</span>
+            <button type="button" (click)="moveUp(i)">↑</button>
+            <button type="button" (click)="moveDown(i)">↓</button>
+            <button type="button" (click)="editQuestion(i)">Edit</button>
+            <button type="button" (click)="deleteQuestion(i)">Delete</button>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+
+  @if (editingQuestion() as eq) {
+    <div class="edit-form">
+      <h3>@if(editingIndex() === -1){Add Question}else{Edit Question}</h3>
+      <form (ngSubmit)="saveQuestion()">
+        <input-group label="Label" for="label">
+          <input id="label" type="text" [(ngModel)]="eq.label" name="label" required />
+        </input-group>
+
+        <input-group label="Type" for="type">
+          <select id="type" [(ngModel)]="eq.type" name="type">
+            <option value="short_text">Short Text</option>
+            <option value="long_text">Long Text</option>
+            <option value="single_choice">Single Choice</option>
+            <option value="multiple_choice">Multiple Choice</option>
+            <option value="date">Date</option>
+            <option value="file_upload">File Upload</option>
+            <option value="video_link">Video Link</option>
+          </select>
+        </input-group>
+
+        <input-group label="Initial Visibility" for="vis">
+          <select id="vis" [(ngModel)]="eq.initialVisibility" name="vis">
+            <option value="show">Show</option>
+            <option value="hidden">Hidden</option>
+          </select>
+        </input-group>
+
+        <input-group label="Required" for="req">
+          <input id="req" type="checkbox" [(ngModel)]="eq.isRequired" name="req" />
+        </input-group>
+
+        @if (eq.type === 'short_text' || eq.type === 'long_text') {
+          <input-group label="Min Length" for="minlen">
+            <input id="minlen" type="number" [(ngModel)]="eq.minLength" name="minlen" />
+          </input-group>
+          <input-group label="Max Length" for="maxlen">
+            <input id="maxlen" type="number" [(ngModel)]="eq.maxLength" name="maxlen" />
+          </input-group>
+        }
+
+        @if (eq.type === 'single_choice' || eq.type === 'multiple_choice') {
+          <div class="answer-options">
+            <label>Answer Options</label>
+            <ul>
+              @for (opt of eq.answerOptions || []; let oi = index; track oi) {
+                <li>
+                  <input [(ngModel)]="opt.label" name="opt{{oi}}" />
+                  <button type="button" (click)="eq.answerOptions!.splice(oi,1)">Remove</button>
+                </li>
+              }
+            </ul>
+            <button type="button" (click)="(eq.answerOptions = eq.answerOptions || []).push({label: ''})">Add Option</button>
+          </div>
+          <input-group label="Allow Manual Entry" for="allowme">
+            <input id="allowme" type="checkbox" [(ngModel)]="eq.allowManualEntry" name="allowme" />
+          </input-group>
+          @if (eq.allowManualEntry) {
+            <input-group label="Manual Entry Min Length" for="memin">
+              <input id="memin" type="number" [(ngModel)]="eq.manualEntryMinLength" name="memin" />
+            </input-group>
+            <input-group label="Manual Entry Max Length" for="memax">
+              <input id="memax" type="number" [(ngModel)]="eq.manualEntryMaxLength" name="memax" />
+            </input-group>
+          }
+          @if (eq.type === 'multiple_choice') {
+            <input-group label="Min Selections" for="minsel">
+              <input id="minsel" type="number" [(ngModel)]="eq.minSelections" name="minsel" />
+            </input-group>
+          }
+        }
+
+        @if (eq.type === 'date') {
+          <input-group label="Min Date" for="mindate">
+            <input id="mindate" type="date" [(ngModel)]="eq.minDate" name="mindate" />
+          </input-group>
+          <input-group label="Max Date" for="maxdate">
+            <input id="maxdate" type="date" [(ngModel)]="eq.maxDate" name="maxdate" />
+          </input-group>
+        }
+
+        @if (eq.type === 'file_upload') {
+          <input-group label="Accepted File Types (comma separated)" for="aft">
+            <input id="aft" type="text" [(ngModel)]="eq.acceptedFileTypesStr" name="aft" />
+          </input-group>
+          <input-group label="Max File Size MB" for="maxfs">
+            <input id="maxfs" type="number" [(ngModel)]="eq.maxFileSizeMB" name="maxfs" />
+          </input-group>
+        }
+
+        @if (eq.type === 'video_link') {
+          <input-group label="Accepted File Types (comma separated)" for="vft">
+            <input id="vft" type="text" [(ngModel)]="eq.acceptedFileTypesStr" name="vft" />
+          </input-group>
+        }
+
+        <button type="submit">Save</button>
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  }
+</div>
