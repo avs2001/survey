@@ -17,7 +17,7 @@ export interface SingleChoiceOption {
     multi: true
   }],
   template: `
-    <fieldset>
+    <fieldset [class.horizontal]="orientation === 'horizontal'">
       <legend>{{ label }}</legend>
       @for (c of options; track c.id) {
         <label>
@@ -32,7 +32,11 @@ export interface SingleChoiceOption {
       }
     </fieldset>
   `,
-  styles: [':host{display:block;}'],
+  styles: [
+    ':host{display:block;}',
+    'fieldset.horizontal{display:flex;gap:.5rem;}',
+    'fieldset.horizontal label{display:inline-flex;align-items:center;}'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SingleChoiceControl implements SurveyControl<string | { other: string } | null> {

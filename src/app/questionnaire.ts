@@ -36,7 +36,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern"
+              [pattern]="q.pattern || undefined"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-short-text>
@@ -49,7 +49,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern"
+              [pattern]="q.pattern || undefined"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-long-text>
@@ -60,6 +60,8 @@ import { Question } from './question.model';
               [label]="q.label"
               [required]="!!q.required"
               [options]="q.options"
+              [orientation]="q.orientation ?? 'vertical'"
+              [defaultValue]="q.defaultValue"
               [otherAllowed]="!!q.otherAllowed"
               [otherLength]="q.otherLength ?? 0"
               [placeholder]="q.placeholder"
@@ -150,7 +152,9 @@ export class QuestionnaireComponent {
         { id: 'makeup', label: 'Makeup' },
         { id: 'fragrance', label: 'Fragrance' }
       ],
-      otherAllowed: true
+      otherAllowed: true,
+      orientation: 'horizontal',
+      defaultValue: 'makeup'
     },
     {
       id: 'markets',

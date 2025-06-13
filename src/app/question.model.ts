@@ -19,19 +19,21 @@ export interface ShortTextQuestion extends BaseQuestion {
   type: 'shortText';
   minLength?: number;
   maxLength?: number;
-  pattern?: RegExp;
+  pattern?: string | RegExp;
 }
 
 export interface LongTextQuestion extends BaseQuestion {
   type: 'longText';
   minLength?: number;
   maxLength?: number;
-  pattern?: RegExp;
+  pattern?: string | RegExp;
 }
 
 export interface SingleChoiceQuestion extends BaseQuestion {
   type: 'singleChoice';
   options: import('./controls').SingleChoiceOption[];
+  orientation?: 'horizontal' | 'vertical';
+  defaultValue?: string;
   otherAllowed?: boolean;
   otherLength?: number;
 }
