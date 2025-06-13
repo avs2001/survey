@@ -1,0 +1,35 @@
+
+User Stories for Sephora Accelerate Program Questionnaire Platform
+
+Program Administrators
+
+1. As a Program Administrator, I want to define and configure dynamic questionnaires, so that I can collect structured data from applicants.
+
+2. As a Program Administrator, I want to set dependencies between questions, so that the questionnaire adapts dynamically to applicants' responses.
+
+3. As a Program Administrator, I want to specify validation rules for each question, so that the collected data meets our quality and compliance standards.
+
+4. As a Program Administrator, I want to choose different input types (text, date, file upload, video link), so that I can capture diverse kinds of information from applicants.
+
+5. As a Program Administrator, I want to manage versions of the questionnaire, so that I can update questions without affecting existing applications.
+
+6. As a Program Administrator, I want to preview the questionnaire before publishing it, so that I can ensure it is clear and functional for applicants.
+
+7. As a Program Administrator, I want an intuitive interface to manage complex logic, so that I can configure questionnaires without needing technical expertise.
+
+
+End-users (Applicants)
+
+1. As an Applicant, I want to easily navigate through the questionnaire, so that I can complete my application without confusion.
+
+2. As an Applicant, I want the questionnaire to clearly indicate which questions are required, so that I know what I must complete before submission.
+
+3. As an Applicant, I want the form to dynamically show or hide questions based on my answers, so that I only see relevant questions.
+
+4. As an Applicant, I want to receive immediate feedback if my inputs do not meet requirements, so that I can correct them right away.
+
+5. As an Applicant, I want to upload required files and video links without technical difficulty, so that I can fully complete my application.
+
+6. As an Applicant, I want to track my progress through the questionnaire, so that I know how much I have completed and what is left.
+
+7. As an Applicant, I want to save my progress and return later, so that I can complete the application at my own pace.

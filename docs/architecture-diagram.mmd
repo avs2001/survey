@@ -1,0 +1,35 @@
+graph TD
+    A[Admin Console (Web UI)] -->|API| B(Backend Services)
+    C[Applicant Portal (Web UI)] -->|API| B
+
+    subgraph Backend Services
+        B1[Questionnaire Management Service]
+        B2[Application Submission Service]
+        B3[Dependency Evaluation Engine]
+        B4[Validation Engine]
+        B5[Version Control & Publishing Workflow]
+        B6[User Authentication & Authorization]
+    end
+
+    B --> B1
+    B --> B2
+    B2 --> B3
+    B2 --> B4
+    B1 --> B5
+    B6 --> B1
+    B6 --> B2
+    B6 --> B5
+
+    B1 --> D[(Database)]
+    B2 --> D
+    B5 --> D
+
+    B2 --> E[(File Upload Storage)]
+
+    subgraph External Services
+        F[Email Service]
+        G[Video Link Validation Service]
+    end
+
+    B2 --> F
+    B2 --> G
