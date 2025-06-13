@@ -7,10 +7,9 @@ import {
   MultipleChoicesControl,
   DateInputControl,
   FileUploadControl,
-  VideoLinkControl,
-  Choice,
-  SingleChoiceOption
+  VideoLinkControl
 } from './controls';
+import { Question } from './question.model';
 
 @Component({
   selector: 'survey-questionnaire',
@@ -27,70 +26,99 @@ import {
   ],
   template: `
     <form #f="ngForm" (ngSubmit)="submit()">
-      <survey-direct-short-text
-        name="brandName"
-        id="brandName"
-        label="Brand Name"
-        [required]="true"
-        [ngModel]="brandName()"
-        (ngModelChange)="brandName.set($event)"
-      ></survey-direct-short-text>
-
-      <survey-direct-long-text
-        name="description"
-        id="description"
-        label="Brand Description"
-        [required]="true"
-        [maxLength]="500"
-        [ngModel]="description()"
-        (ngModelChange)="description.set($event)"
-      ></survey-direct-long-text>
-
-      <survey-single-choice
-        name="category"
-        id="category"
-        label="Product Category"
-        [required]="true"
-        [options]="categories"
-        [otherAllowed]="true"
-        [(ngModel)]="category"
-      ></survey-single-choice>
-
-      <survey-multiple-choices
-        name="markets"
-        id="markets"
-        label="Target Markets"
-        [options]="marketsOptions"
-        [minSelections]="1"
-        [otherAllowed]="true"
-        [(ngModel)]="markets"
-      ></survey-multiple-choices>
-
-      <survey-date-input
-        name="founded"
-        id="founded"
-        label="Founded Date"
-        [required]="true"
-        [(ngModel)]="founded"
-      ></survey-date-input>
-
-      <survey-file-upload
-        name="pitch"
-        id="pitch"
-        label="Pitch Deck"
-        accept="application/pdf"
-        [required]="true"
-        [(ngModel)]="pitch"
-      ></survey-file-upload>
-
-      <survey-video-link
-        name="video"
-        id="video"
-        label="Intro Video"
-        placeholder="https://example.com/video"
-        [(ngModel)]="video"
-      ></survey-video-link>
-
+      @for (q of questions; track q.id) {
+        @switch (q.type) {
+          @case ('shortText') {
+            <survey-direct-short-text
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [placeholder]="q.placeholder"
+              [minLength]="q.minLength"
+              [maxLength]="q.maxLength"
+              [pattern]="q.pattern"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-direct-short-text>
+          }
+          @case ('longText') {
+            <survey-direct-long-text
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [placeholder]="q.placeholder"
+              [minLength]="q.minLength"
+              [maxLength]="q.maxLength"
+              [pattern]="q.pattern"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-direct-long-text>
+          }
+          @case ('singleChoice') {
+            <survey-single-choice
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [options]="q.options"
+              [otherAllowed]="q.otherAllowed"
+              [otherLength]="q.otherLength"
+              [placeholder]="q.placeholder"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-single-choice>
+          }
+          @case ('multipleChoices') {
+            <survey-multiple-choices
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [options]="q.options"
+              [minSelections]="q.minSelections"
+              [maxSelections]="q.maxSelections"
+              [randomize]="q.randomize"
+              [otherAllowed]="q.otherAllowed"
+              [otherLength]="q.otherLength"
+              [placeholder]="q.placeholder"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-multiple-choices>
+          }
+          @case ('date') {
+            <survey-date-input
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [placeholder]="q.placeholder"
+              [minDate]="q.minDate"
+              [maxDate]="q.maxDate"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-date-input>
+          }
+          @case ('file') {
+            <survey-file-upload
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [accept]="q.accept"
+              [maxSize]="q.maxSize"
+              [placeholder]="q.placeholder"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-file-upload>
+          }
+          @case ('video') {
+            <survey-video-link
+              [id]="q.id"
+              [label]="q.label"
+              [required]="q.required"
+              [placeholder]="q.placeholder"
+              [ngModel]="answers()[q.id]"
+              (ngModelChange)="setAnswer(q.id, $event)"
+            ></survey-video-link>
+          }
+        }
+      }
       <button type="submit">Submit</button>
     </form>
   `,
@@ -98,35 +126,72 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestionnaireComponent {
-  brandName = signal('');
-  description = signal('');
-  category: string | { other: string } | null = null;
-  markets: (string | { other: string })[] = [];
-  founded = '';
-  pitch: File | null = null;
-  video = '';
-
-  categories: SingleChoiceOption[] = [
-    { id: 'skincare', label: 'Skincare' },
-    { id: 'makeup', label: 'Makeup' },
-    { id: 'fragrance', label: 'Fragrance' }
+  questions: Question[] = [
+    {
+      id: 'brandName',
+      label: 'Brand Name',
+      type: 'shortText',
+      required: true
+    },
+    {
+      id: 'description',
+      label: 'Brand Description',
+      type: 'longText',
+      required: true,
+      maxLength: 500
+    },
+    {
+      id: 'category',
+      label: 'Product Category',
+      type: 'singleChoice',
+      required: true,
+      options: [
+        { id: 'skincare', label: 'Skincare' },
+        { id: 'makeup', label: 'Makeup' },
+        { id: 'fragrance', label: 'Fragrance' }
+      ],
+      otherAllowed: true
+    },
+    {
+      id: 'markets',
+      label: 'Target Markets',
+      type: 'multipleChoices',
+      options: [
+        { id: 'us', label: 'United States' },
+        { id: 'eu', label: 'Europe' },
+        { id: 'asia', label: 'Asia' }
+      ],
+      minSelections: 1,
+      otherAllowed: true
+    },
+    {
+      id: 'founded',
+      label: 'Founded Date',
+      type: 'date',
+      required: true
+    },
+    {
+      id: 'pitch',
+      label: 'Pitch Deck',
+      type: 'file',
+      accept: 'application/pdf',
+      required: true
+    },
+    {
+      id: 'video',
+      label: 'Intro Video',
+      type: 'video',
+      placeholder: 'https://example.com/video'
+    }
   ];
 
-  marketsOptions: Choice[] = [
-    { id: 'us', label: 'United States' },
-    { id: 'eu', label: 'Europe' },
-    { id: 'asia', label: 'Asia' }
-  ];
+  answers = signal<Record<string, any>>({});
+
+  setAnswer(id: string, value: any): void {
+    this.answers.update(a => ({ ...a, [id]: value }));
+  }
 
   submit(): void {
-    console.log({
-      brandName: this.brandName(),
-      description: this.description(),
-      category: this.category,
-      markets: this.markets,
-      founded: this.founded,
-      pitch: this.pitch?.name,
-      video: this.video
-    });
+    console.log(this.answers());
   }
 }
