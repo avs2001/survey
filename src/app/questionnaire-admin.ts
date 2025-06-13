@@ -9,7 +9,7 @@ import { Question, QuestionType } from './question.model';
   template: `
     <h2>Questions</h2>
     <ul>
-      @for (q of questions(); track q.id; let i = index) {
+      @for (q of questions(); track q.id; let i = $index) {
         <li>
           <input [ngModel]="q.id" (ngModelChange)="updateQuestion(i, { id: $event })" placeholder="Id" />
           <input [ngModel]="q.label" (ngModelChange)="updateQuestion(i, { label: $event })" placeholder="Label" />
@@ -31,21 +31,21 @@ import { Question, QuestionType } from './question.model';
       <input
         name="id"
         [ngModel]="newQuestion().id"
-        (ngModelChange)="newQuestion.update(q => ({ ...q, id: $event }))"
+        (ngModelChange)="patchNewQuestion('id', $event)"
         placeholder="Id"
         required
       />
       <input
         name="label"
         [ngModel]="newQuestion().label"
-        (ngModelChange)="newQuestion.update(q => ({ ...q, label: $event }))"
+        (ngModelChange)="patchNewQuestion('label', $event)"
         placeholder="Label"
         required
       />
       <select
         name="type"
         [ngModel]="newQuestion().type"
-        (ngModelChange)="newQuestion.update(q => ({ ...q, type: $event }))"
+        (ngModelChange)="patchNewQuestion('type', $event)"
       >
         @for (t of types; track t) { <option [ngValue]="t">{{ t }}</option> }
       </select>
@@ -54,7 +54,7 @@ import { Question, QuestionType } from './question.model';
           type="checkbox"
           name="required"
           [ngModel]="newQuestion().required"
-          (ngModelChange)="newQuestion.update(q => ({ ...q, required: $event }))"
+          (ngModelChange)="patchNewQuestion('required', $event)"
         />
         Required
       </label>
@@ -75,6 +75,10 @@ export class QuestionnaireAdminComponent {
     type: 'shortText',
     required: false
   });
+
+  patchNewQuestion(key: 'id' | 'label' | 'type' | 'required', value: any): void {
+    this.newQuestion.update(q => ({ ...q, [key]: value }));
+  }
 
   addQuestion(): void {
     const q = this.newQuestion();
