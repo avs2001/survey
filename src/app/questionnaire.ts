@@ -32,7 +32,7 @@ import { Question } from './question.model';
             <survey-direct-short-text
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
@@ -45,7 +45,7 @@ import { Question } from './question.model';
             <survey-direct-long-text
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
@@ -58,7 +58,7 @@ import { Question } from './question.model';
             <survey-single-choice
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [options]="q.options"
               [otherAllowed]="q.otherAllowed"
               [otherLength]="q.otherLength"
@@ -71,7 +71,7 @@ import { Question } from './question.model';
             <survey-multiple-choices
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [options]="q.options"
               [minSelections]="q.minSelections"
               [maxSelections]="q.maxSelections"
@@ -87,7 +87,7 @@ import { Question } from './question.model';
             <survey-date-input
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [placeholder]="q.placeholder"
               [minDate]="q.minDate"
               [maxDate]="q.maxDate"
@@ -99,7 +99,7 @@ import { Question } from './question.model';
             <survey-file-upload
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [accept]="q.accept"
               [maxSize]="q.maxSize"
               [placeholder]="q.placeholder"
@@ -111,7 +111,7 @@ import { Question } from './question.model';
             <survey-video-link
               [id]="q.id"
               [label]="q.label"
-              [required]="q.required"
+              [required]="!!q.required"
               [placeholder]="q.placeholder"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
