@@ -12,6 +12,13 @@ Implement a single-line text input for short answers. Administrators can configu
 - Trimming spaces may affect length validation.
 - Mobile keyboards may automatically capitalize or correct input.
 
+## Technical Details
+- Use a standalone `<input type="text">` component implementing `ControlValueAccessor`.
+- Support `minLength`, `maxLength`, `pattern`, `placeholder` and `required` as configurable inputs.
+- Optionally restrict input to numeric or custom patterns via `pattern`.
+- Expose the current value through a signal for easier integration with parent forms.
+- Apply `OnPush` change detection to minimize unnecessary re-rendering.
+
 ## Related Tasks
 - [task-direct-long-text-type.md](task-direct-long-text-type.md)
 - [../task-applicant-interface.md](../task-applicant-interface.md)

@@ -12,6 +12,13 @@ Implement a radio button list where only one option can be selected. Administrat
 - "Other" entry must enforce configured length limits.
 - Switching between an "other" entry and a predefined choice may leave stale values in the form state.
 
+## Technical Details
+- Build a standalone radio group component that uses `ControlValueAccessor` to communicate with parent forms.
+- Inputs should include the list of choices, orientation (`horizontal` or `vertical`), `required`, default value and optional "other" settings.
+- Manage the selected option with a signal and update the form control whenever it changes.
+- Validate that a choice is selected when required and ensure "other" input respects configured length constraints.
+- Utilize `OnPush` change detection for performance.
+
 ## Related Tasks
 - [task-multiple-choices-type.md](task-multiple-choices-type.md)
 - [../task-applicant-interface.md](../task-applicant-interface.md)

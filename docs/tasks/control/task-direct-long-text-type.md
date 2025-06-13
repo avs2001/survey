@@ -12,6 +12,13 @@ Provide a textarea control for multi-line answers. Administrators may configure 
 - Browser autofill could insert text beyond allowed length.
 - Mobile browsers may auto-capitalize or insert line breaks unexpectedly.
 
+## Technical Details
+- Provide a standalone `<textarea>` component that implements `ControlValueAccessor`.
+- Inputs should include `minLength`, `maxLength`, `pattern`, `placeholder` and `required`.
+- Display a live remaining character count using a signal derived from the current value length.
+- Reject input containing HTML tags through a configurable regular expression.
+- Use `OnPush` change detection and keep internal state in signals.
+
 ## Related Tasks
 - [task-direct-short-text-type.md](task-direct-short-text-type.md)
 - [../task-applicant-interface.md](../task-applicant-interface.md)
