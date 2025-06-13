@@ -36,7 +36,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern as string | RegExp"
+              [pattern]="castPattern(q.pattern)"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-short-text>
@@ -49,7 +49,7 @@ import { Question } from './question.model';
               [placeholder]="q.placeholder"
               [minLength]="q.minLength"
               [maxLength]="q.maxLength"
-              [pattern]="q.pattern as string | RegExp"
+              [pattern]="castPattern(q.pattern)"
               [ngModel]="answers()[q.id]"
               (ngModelChange)="setAnswer(q.id, $event)"
             ></survey-direct-long-text>
@@ -190,6 +190,10 @@ export class QuestionnaireComponent {
   ];
 
   answers = signal<Record<string, any>>({});
+
+  castPattern(p?: string | RegExp): string | RegExp | null {
+    return p ?? null;
+  }
 
   setAnswer(id: string, value: any): void {
     this.answers.update(a => ({ ...a, [id]: value }));
