@@ -31,8 +31,8 @@ import {
         name="brandName"
         id="brandName"
         label="Brand Name"
-        required
-        [(ngModel)]="brandName()"
+        [required]="true"
+        [ngModel]="brandName()"
         (ngModelChange)="brandName.set($event)"
       ></survey-direct-short-text>
 
@@ -40,9 +40,9 @@ import {
         name="description"
         id="description"
         label="Brand Description"
-        required
+        [required]="true"
         [maxLength]="500"
-        [(ngModel)]="description()"
+        [ngModel]="description()"
         (ngModelChange)="description.set($event)"
       ></survey-direct-long-text>
 
@@ -50,9 +50,9 @@ import {
         name="category"
         id="category"
         label="Product Category"
-        required
+        [required]="true"
         [options]="categories"
-        otherAllowed
+        [otherAllowed]="true"
         [(ngModel)]="category"
       ></survey-single-choice>
 
@@ -62,7 +62,7 @@ import {
         label="Target Markets"
         [options]="marketsOptions"
         [minSelections]="1"
-        otherAllowed
+        [otherAllowed]="true"
         [(ngModel)]="markets"
       ></survey-multiple-choices>
 
@@ -70,7 +70,7 @@ import {
         name="founded"
         id="founded"
         label="Founded Date"
-        required
+        [required]="true"
         [(ngModel)]="founded"
       ></survey-date-input>
 
@@ -79,7 +79,7 @@ import {
         id="pitch"
         label="Pitch Deck"
         accept="application/pdf"
-        required
+        [required]="true"
         [(ngModel)]="pitch"
       ></survey-file-upload>
 
