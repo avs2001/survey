@@ -61,4 +61,15 @@ describe('SingleChoice', () => {
     expect(component.value().selection).toBe('B');
     expect(component.value().manual).toBe('');
   });
+
+  it('should render manual label', () => {
+    component.allowManualEntry = true;
+    fixture.detectChanges();
+    let label = fixture.nativeElement.querySelector('label.manual') as HTMLElement;
+    expect(label.textContent).toContain('Other');
+    component.manualLabel = 'Custom';
+    fixture.detectChanges();
+    label = fixture.nativeElement.querySelector('label.manual') as HTMLElement;
+    expect(label.textContent).toContain('Custom');
+  });
 });

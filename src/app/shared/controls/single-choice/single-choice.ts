@@ -17,6 +17,7 @@ export class SingleChoice {
   @Input() options: string[] = [];
   @Input() required = false;
   @Input() allowManualEntry = false;
+  @Input() manualLabel = 'Other';
   @Input() manualMinLength = 0;
   @Input() manualMaxLength = Infinity;
 

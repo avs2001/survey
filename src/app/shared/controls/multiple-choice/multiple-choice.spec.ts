@@ -37,4 +37,15 @@ describe('MultipleChoice', () => {
     fixture.detectChanges();
     expect((component as any).manualError()).toContain('Minimum length');
   });
+
+  it('should render manual label', () => {
+    component.allowManualEntry = true;
+    fixture.detectChanges();
+    let label = fixture.nativeElement.querySelector('label.manual') as HTMLElement;
+    expect(label.textContent).toContain('Other');
+    component.manualLabel = 'Custom';
+    fixture.detectChanges();
+    label = fixture.nativeElement.querySelector('label.manual') as HTMLElement;
+    expect(label.textContent).toContain('Custom');
+  });
 });

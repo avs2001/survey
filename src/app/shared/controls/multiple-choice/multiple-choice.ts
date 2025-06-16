@@ -18,6 +18,7 @@ export class MultipleChoice {
   @Input() required = false;
   @Input() minSelections = 0;
   @Input() allowManualEntry = false;
+  @Input() manualLabel = 'Other';
   @Input() manualMinLength = 0;
   @Input() manualMaxLength = Infinity;
 

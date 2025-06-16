@@ -21,6 +21,7 @@
 }
 @if (allowManualEntry) {
   <label class="manual">
+    {{ manualLabel }}
     <input
       type="text"
       [value]="manualValue()"
