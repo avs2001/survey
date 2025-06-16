@@ -26,10 +26,10 @@ export class MultipleChoice {
 
   readonly value = model<MultipleChoiceValue>({ selections: [], manual: '' });
 
-  readonly selectionErrorId = `mc-selection-error-${Math.random().toString(36).slice(2)}`;
-  readonly manualErrorId = `mc-manual-error-${Math.random().toString(36).slice(2)}`;
+  readonly selectionErrorId = `mc-selection-error-${crypto.randomUUID()}`;
+  readonly manualErrorId = `mc-manual-error-${crypto.randomUUID()}`;
 
-  protected selectionError = computed(() => {
+  protected readonly selectionError = computed(() => {
     const count = this.selectedOptions().length;
     if (this.required && count === 0) {
       return 'Selection required';
@@ -40,7 +40,7 @@ export class MultipleChoice {
     return '';
   });
 
-  protected manualError = computed(() => {
+  protected readonly manualError = computed(() => {
     if (!this.allowManualEntry) return '';
     const val = this.manualValue();
     if (!val) return '';
@@ -74,18 +74,12 @@ export class MultipleChoice {
   }
 
   toggle(option: string, checked: boolean): void {
-    const values = this.selectedOptions().slice();
-    if (checked) {
-      if (!values.includes(option)) {
-        values.push(option);
+    this.selectedOptions.update(values => {
+      if (checked) {
+        return values.includes(option) ? values : [...values, option];
       }
-    } else {
-      const idx = values.indexOf(option);
-      if (idx !== -1) {
-        values.splice(idx, 1);
-      }
-    }
-    this.selectedOptions.set(values);
+      return values.filter(v => v !== option);
+    });
   }
 
   updateManual(val: string): void {
