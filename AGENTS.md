@@ -40,13 +40,14 @@ Codex agents must:
 - Automatically add meaningful unit tests using Jest (inputs/outputs, computed signals, resource flows).
 - Ensure accessibility and test coverage.
 - Avoid legacy patterns (no `ngModule`, no `rxjs` unless required).
+- Use control flow directives (`@if`, `@switch`) for rendering logic, no complex inline logic in templates.
 
 **Required Output for Every Agent Task:**
 
 - ✅ Component (standalone, signals-based)
 - ✅ Template (control flow only, no complex inline logic)
 - ✅ SCSS with component-specific styling
-- ✅ Jest unit test
+- ✅ Karma unit test
 - ✅ If UI: add preview story or example usage
 
 ---
