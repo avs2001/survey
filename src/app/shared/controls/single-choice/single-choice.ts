@@ -29,7 +29,9 @@ export class SingleChoice {
   readonly manualErrorId = `sc-manual-error-${crypto.randomUUID()}`;
 
   protected readonly selectionError = computed(() => {
-    if (this.required && !this.selected()) {
+    const selection = this.selected();
+    const manual = this.manualValue();
+    if (this.required && !selection && !manual) {
       return 'Selection required';
     }
     return '';
