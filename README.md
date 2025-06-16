@@ -85,6 +85,20 @@ To run tests:
 npm test
 ```
 
+## Example Usage
+
+The `SingleChoice` component can be used to present radio options with optional manual entry:
+
+```html
+<app-single-choice
+  name="favoriteColor"
+  [options]="['Red', 'Blue', 'Green']"
+  [required]="true"
+  [allowManualEntry]="true"
+  [manualMinLength]="2"
+></app-single-choice>
+```
+
 ## License
 
 This project is currently released under a placeholder license.
