@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
-- Placeholder for upcoming changes.
+- Fixed manual entry not deselecting predefined option in `SingleChoice` control.
 
 ## [1.1.0] - 2025-06-14
 ### Added

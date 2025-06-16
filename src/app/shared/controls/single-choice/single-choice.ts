@@ -70,9 +70,11 @@ export class SingleChoice {
 
   select(option: string): void {
     this.selected.set(option);
+    this.manualValue.set('');
   }
 
   updateManual(val: string): void {
     this.manualValue.set(val);
+    this.selected.set('');
   }
 }
