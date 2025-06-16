@@ -32,10 +32,12 @@ export class MultipleChoice {
 
   protected readonly selectionError = computed(() => {
     const count = this.selectedOptions().length;
-    if (this.required && count === 0) {
+    const hasManual = this.allowManualEntry && !!this.manualValue();
+    const total = count + (hasManual ? 1 : 0);
+    if (this.required && total === 0) {
       return 'Selection required';
     }
-    if (this.minSelections && count < this.minSelections) {
+    if (this.minSelections && total < this.minSelections) {
       return `Select at least ${this.minSelections}`;
     }
     return '';
