@@ -1,23 +1,31 @@
-<div class="options">
-  <label *ngFor="let option of options">
-    <input
-      type="checkbox"
-      [checked]="selectedOptions().includes(option)"
-      (change)="onToggle($event, option)" />
-    {{ option }}
-  </label>
+<div
+  class="options"
+  role="group"
+  [attr.aria-label]="name"
+  [attr.aria-describedby]="selectionError() ? selectionErrorId : null">
+  @for (option of options; track option) {
+    <label>
+      <input
+        type="checkbox"
+        [checked]="isSelected(option)"
+        (change)="onToggle($event, option)" />
+      {{ option }}
+    </label>
+  }
 </div>
 @if (selectionError()) {
-  <p class="error">{{ selectionError() }}</p>
+  <p class="error" [id]="selectionErrorId">{{ selectionError() }}</p>
 }
 @if (allowManualEntry) {
   <label class="manual">
     <input
       type="text"
       [value]="manualValue()"
-      (input)="onManual($event)" />
+      (input)="onManual($event)"
+      [attr.aria-invalid]="manualError() ? true : null"
+      [attr.aria-describedby]="manualError() ? manualErrorId : null" />
   </label>
   @if (manualError()) {
-    <p class="error">{{ manualError() }}</p>
+    <p class="error" [id]="manualErrorId">{{ manualError() }}</p>
   }
 }

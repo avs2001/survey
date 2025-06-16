@@ -1,6 +1,4 @@
 import { Component, Input, computed, effect, model, signal } from '@angular/core';
-import { NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 interface MultipleChoiceValue {
   selections: string[];
@@ -10,11 +8,12 @@ interface MultipleChoiceValue {
 @Component({
   selector: 'app-multiple-choice',
   standalone: true,
-  imports: [NgFor, FormsModule],
+  imports: [],
   templateUrl: './multiple-choice.html',
   styleUrl: './multiple-choice.scss'
 })
 export class MultipleChoice {
+  @Input() name = '';
   @Input() options: string[] = [];
   @Input() required = false;
   @Input() minSelections = 0;
@@ -26,6 +25,9 @@ export class MultipleChoice {
   protected readonly manualValue = signal('');
 
   readonly value = model<MultipleChoiceValue>({ selections: [], manual: '' });
+
+  readonly selectionErrorId = `mc-selection-error-${Math.random().toString(36).slice(2)}`;
+  readonly manualErrorId = `mc-manual-error-${Math.random().toString(36).slice(2)}`;
 
   protected selectionError = computed(() => {
     const count = this.selectedOptions().length;
@@ -55,6 +57,10 @@ export class MultipleChoice {
     effect(() => {
       this.value.set({ selections: this.selectedOptions(), manual: this.manualValue() });
     });
+  }
+
+  isSelected(option: string): boolean {
+    return this.selectedOptions().includes(option);
   }
 
   onToggle(event: Event, option: string): void {
