@@ -21,6 +21,8 @@ export class MultipleChoice implements ChoiceControl<string[]> {
 
   protected readonly selectedOptions = signal<string[]>([]);
   protected readonly manualValue = signal('');
+  protected readonly dirty = signal(false);
+  protected readonly manualDirty = signal(false);
 
   readonly value = model<
     ChoiceControlValue & { selection: string[] }
@@ -72,6 +74,7 @@ export class MultipleChoice implements ChoiceControl<string[]> {
   }
 
   toggle(option: string, checked: boolean): void {
+    this.dirty.set(true);
     this.selectedOptions.update(values => {
       if (checked) {
         return values.includes(option) ? values : [...values, option];
@@ -81,6 +84,8 @@ export class MultipleChoice implements ChoiceControl<string[]> {
   }
 
   updateManual(val: string): void {
+    this.manualDirty.set(true);
+    this.dirty.set(true);
     this.manualValue.set(val);
   }
 }
