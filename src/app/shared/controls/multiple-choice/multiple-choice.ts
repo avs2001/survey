@@ -1,9 +1,6 @@
 import { Component, Input, computed, effect, model, signal } from '@angular/core';
-
-interface MultipleChoiceValue {
-  selections: string[];
-  manual: string;
-}
+import type { ChoiceControl, ChoiceControlValue } from '../choice-control.interface';
+import { manualEntryError } from '../manual-entry-error';
 
 @Component({
   selector: 'app-multiple-choice',
@@ -12,7 +9,7 @@ interface MultipleChoiceValue {
   templateUrl: './multiple-choice.html',
   styleUrl: './multiple-choice.scss'
 })
-export class MultipleChoice {
+export class MultipleChoice implements ChoiceControl<string[]> {
   @Input() name = '';
   @Input() options: string[] = [];
   @Input() required = false;
@@ -25,7 +22,9 @@ export class MultipleChoice {
   protected readonly selectedOptions = signal<string[]>([]);
   protected readonly manualValue = signal('');
 
-  readonly value = model<MultipleChoiceValue>({ selections: [], manual: '' });
+  readonly value = model<
+    ChoiceControlValue & { selection: string[] }
+  >({ selection: [], manual: '' });
 
   readonly selectionErrorId = `mc-selection-error-${crypto.randomUUID()}`;
   readonly manualErrorId = `mc-manual-error-${crypto.randomUUID()}`;
@@ -43,22 +42,18 @@ export class MultipleChoice {
     return '';
   });
 
-  protected readonly manualError = computed(() => {
-    if (!this.allowManualEntry) return '';
-    const val = this.manualValue();
-    if (!val) return '';
-    if (this.manualMinLength && val.length < this.manualMinLength) {
-      return `Minimum length is ${this.manualMinLength}`;
-    }
-    if (this.manualMaxLength !== Infinity && val.length > this.manualMaxLength) {
-      return `Maximum length is ${this.manualMaxLength}`;
-    }
-    return '';
-  });
+  protected readonly manualError = computed(() =>
+    manualEntryError(
+      this.allowManualEntry,
+      this.manualValue(),
+      this.manualMinLength,
+      this.manualMaxLength
+    )
+  );
 
   constructor() {
     effect(() => {
-      this.value.set({ selections: this.selectedOptions(), manual: this.manualValue() });
+      this.value.set({ selection: this.selectedOptions(), manual: this.manualValue() });
     });
   }
 
