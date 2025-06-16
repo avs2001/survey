@@ -1,0 +1,23 @@
+<div class="options">
+  <label *ngFor="let option of options">
+    <input
+      type="checkbox"
+      [checked]="selectedOptions().includes(option)"
+      (change)="toggle(option, $event.target.checked)" />
+    {{ option }}
+  </label>
+</div>
+@if (selectionError()) {
+  <p class="error">{{ selectionError() }}</p>
+}
+@if (allowManualEntry) {
+  <label class="manual">
+    <input
+      type="text"
+      [value]="manualValue()"
+      (input)="updateManual($event.target.value)" />
+  </label>
+  @if (manualError()) {
+    <p class="error">{{ manualError() }}</p>
+  }
+}
