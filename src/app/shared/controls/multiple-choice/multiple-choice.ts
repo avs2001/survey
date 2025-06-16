@@ -1,5 +1,5 @@
 import { Component, Input, computed, effect, model, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 interface MultipleChoiceValue {
@@ -10,7 +10,7 @@ interface MultipleChoiceValue {
 @Component({
   selector: 'app-multiple-choice',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule],
+  imports: [NgFor, FormsModule],
   templateUrl: './multiple-choice.html',
   styleUrl: './multiple-choice.scss'
 })
@@ -22,10 +22,10 @@ export class MultipleChoice {
   @Input() manualMinLength = 0;
   @Input() manualMaxLength = Infinity;
 
-  protected selectedOptions = signal<string[]>([]);
-  protected manualValue = signal('');
+  protected readonly selectedOptions = signal<string[]>([]);
+  protected readonly manualValue = signal('');
 
-  value = model<MultipleChoiceValue>({ selections: [], manual: '' });
+  readonly value = model<MultipleChoiceValue>({ selections: [], manual: '' });
 
   protected selectionError = computed(() => {
     const count = this.selectedOptions().length;
@@ -57,7 +57,17 @@ export class MultipleChoice {
     });
   }
 
-  toggle(option: string, checked: boolean) {
+  onToggle(event: Event, option: string): void {
+    const checked = (event.target as HTMLInputElement | null)?.checked ?? false;
+    this.toggle(option, checked);
+  }
+
+  onManual(event: Event): void {
+    const value = (event.target as HTMLInputElement | null)?.value ?? '';
+    this.updateManual(value);
+  }
+
+  toggle(option: string, checked: boolean): void {
     const values = this.selectedOptions().slice();
     if (checked) {
       if (!values.includes(option)) {
@@ -72,7 +82,7 @@ export class MultipleChoice {
     this.selectedOptions.set(values);
   }
 
-  updateManual(val: string) {
+  updateManual(val: string): void {
     this.manualValue.set(val);
   }
 }
