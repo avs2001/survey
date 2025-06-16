@@ -56,4 +56,14 @@ describe('MultipleChoice', () => {
     label = fixture.nativeElement.querySelector('label.manual') as HTMLElement;
     expect(label.textContent).toContain('Custom');
   });
+
+  it('should not show errors before interaction', () => {
+    component.required = true;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.error')).toBeNull();
+    component.toggle('A', false);
+    fixture.detectChanges();
+    const error = fixture.nativeElement.querySelector('.error') as HTMLElement;
+    expect(error.textContent).toContain('Selection required');
+  });
 });

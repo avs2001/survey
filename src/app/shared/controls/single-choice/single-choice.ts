@@ -20,6 +20,8 @@ export class SingleChoice implements ChoiceControl<string> {
 
   protected readonly selected = signal('');
   protected readonly manualValue = signal('');
+  protected readonly dirty = signal(false);
+  protected readonly manualDirty = signal(false);
 
   readonly value = model<
     ChoiceControlValue & { selection: string }
@@ -67,11 +69,14 @@ export class SingleChoice implements ChoiceControl<string> {
   }
 
   select(option: string): void {
+    this.dirty.set(true);
     this.selected.set(option);
     this.manualValue.set('');
   }
 
   updateManual(val: string): void {
+    this.manualDirty.set(true);
+    this.dirty.set(true);
     this.manualValue.set(val);
     this.selected.set('');
   }

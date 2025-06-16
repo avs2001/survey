@@ -2,7 +2,7 @@
   class="options"
   role="group"
   [attr.aria-label]="name"
-  [attr.aria-describedby]="selectionError() ? selectionErrorId : null">
+  [attr.aria-describedby]="dirty() && selectionError() ? selectionErrorId : null">
   @for (option of options; track option) {
     <label>
       <input
@@ -13,7 +13,7 @@
     </label>
   }
 </div>
-@if (selectionError()) {
+@if (dirty() && selectionError()) {
   <p class="error" [id]="selectionErrorId">{{ selectionError() }}</p>
 }
 @if (allowManualEntry) {
@@ -23,10 +23,10 @@
       type="text"
       [value]="manualValue()"
       (input)="onManual($event)"
-      [attr.aria-invalid]="manualError() ? true : null"
-      [attr.aria-describedby]="manualError() ? manualErrorId : null" />
+      [attr.aria-invalid]="manualDirty() && manualError() ? true : null"
+      [attr.aria-describedby]="manualDirty() && manualError() ? manualErrorId : null" />
   </label>
-  @if (manualError()) {
+  @if (manualDirty() && manualError()) {
     <p class="error" [id]="manualErrorId">{{ manualError() }}</p>
   }
 }
