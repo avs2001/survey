@@ -1,180 +1,124 @@
 # AGENTS.md
 
-> Defining standards, responsibilities, and quality guidelines for AI-powered agents contributing to the Angular development environment.
+> Standards and responsibilities for AI-powered agents in the **Sephora Accelerate Program** using **Angular 20**, Signals-first architecture, and AI development agents powered by Codex.
 
 ---
 
 ## Purpose
 
-This document defines a structured environment for **AI-powered agents** supporting the development of modern Angular applications.  
-Agents operate with awareness of Angular architecture, tooling, and best practices to:
-
-- generate, refactor, and optimize code
-- enhance UX with AI-driven components
-- maintain code quality and consistency
-- ensure accessibility, performance, and scalability
-- evolve the application to leverage modern Angular features
+This document outlines a standardized framework for **AI-powered development agents** that assist in building and maintaining Angular 20 applications for the **Sephora Accelerate Program**.  
+Agents are responsible for both **developer support** (code generation/refactor) and **end-user experiences** (smart UI components powered by AI).
 
 ---
 
-## Environment
+## Technology Stack
 
-- **Framework:** Angular (latest version; follow [Angular coding style guide](https://angular.io/guide/styleguide))
-- **Language:** TypeScript, HTML, SCSS
-- **Tooling:** Angular CLI, Angular Language Service, Signals API, Control Flow
-- **State management:** Signals (`signal`, `computed`, `linkedSignal`, `resource`), minimal external state libraries
-- **Data handling:** Leverage `resource` for async flows; ensure reactive patterns in templates
-- **Testing:** Unit tests with Jasmine/Karma or Jest; E2E tests with Cypress or Playwright
-
-Agents must generate code that is **Signals-first** and aligned with **Component-first** Angular architecture.
+| Layer              | Stack                          |
+|-------------------|---------------------------------|
+| Framework          | Angular 20                     |
+| Language           | TypeScript, SCSS, HTML         |
+| Architecture       | Standalone components, feature-first, Signals-first |
+| State              | Signals (`signal`, `computed`, `effect`, `model`) |
+| Async              | `resource()` with fallback UX  |
+| Component Strategy | Control Flow, `@defer`, `@if`, `@switch` |
+| Tooling            | Angular CLI, ESLint, Prettier, Codex |
+| Libraries          | `@kebormed/core`, `@kebormed/kit` |
+| Testing            | Jest for unit tests, Playwright for E2E |
 
 ---
 
 ## Agent Responsibilities
 
-### 1️⃣ General
+### 🧠 Developer Agents (via Codex)
 
-- Follow the Angular coding style guide for:
-  - Naming (hyphen-separated file names)
-  - Structure (one concept per file)
-  - Consistency (match file name with class names)
-- Organize code in **feature-based directories**.
-- Use Signals and Control Flow as primary reactivity model.
-- Prefer `inject()` over constructor parameter injection.
-- Write **unit tests** when generating components/services/directives.
-- Use `@defer` blocks and `@loading`/`@placeholder` to optimize resource loading.
+Codex agents must:
 
----
+- Generate new standalone components with proper selector, Signals, `model()`, and typed inputs/outputs.
+- Use `inject()` for DI.
+- Scaffold new features inside `@kebormed/kit` using our layered folder structure.
+- Wrap async logic with `resource()` and control rendering via `@defer`, `@loading`, and `@placeholder`.
+- Automatically add meaningful unit tests using Jest (inputs/outputs, computed signals, resource flows).
+- Ensure accessibility and test coverage.
+- Avoid legacy patterns (no `ngModule`, no `rxjs` unless required).
 
-### 2️⃣ Components
+**Required Output for Every Agent Task:**
 
-- Build components that are:
-  - **Composable**
-  - **Encapsulated**
-  - **Focused on UI**
-- Use `ng-content` for content projection.
-- Implement selectors using hyphen-case with feature-specific prefix (e.g. `app-profile-photo`).
-- Follow style guidelines:
-  - Prefer `ViewEncapsulation.Emulated` (default).
-  - Use `class`/`style` bindings over `ngClass`/`ngStyle`.
-  - Avoid overly complex logic in templates (prefer `computed`).
+- ✅ Component (standalone, signals-based)
+- ✅ Template (control flow only, no complex inline logic)
+- ✅ SCSS with component-specific styling
+- ✅ Jest unit test
+- ✅ If UI: add preview story or example usage
 
 ---
 
-### 3️⃣ Directives
+### 👩‍⚕️ End-User Agents (UX Components)
 
-- Assist in building:
-  - Structural directives (e.g. `@if`, `@for`, `@switch`).
-  - Attribute directives for reusable behaviors.
-- Ensure directives are compatible with standalone components and Composition API.
+Agents must:
 
----
+- Deliver **real-time insights**, **data summaries**, and **Q&A components** for physicians or patients.
+- Load only when needed (`@defer` with `whenVisible` or `onIdle`).
+- Display traceable AI content (`"Generated by AI"` badge).
+- Allow users to refresh answers or ask follow-up questions.
+- Use `NgOptimizedImage` for image content and performance.
+- Expose signals for external integration via `model()`.
 
-### 4️⃣ Dependency Injection
+**End-user agent UX must:**
 
-- Use `providedIn: 'root'` for globally shared services.
-- Use `inject()` in components and services.
-- Follow advanced patterns where appropriate:
-  - `useFactory`, `useValue`, `InjectionToken`.
-- Use **hierarchical injectors** for feature isolation where needed.
-
----
-
-### 5️⃣ AI-Specific Patterns
-
-- AI-generated components must include **metadata for traceability**.
-- For AI-powered UX (chatbots, smart forms, etc.):
-  - Follow performance and accessibility best practices.
-  - Optimize initial load with `@defer` and prefetch triggers.
-- For AI-driven code generation:
-  - Prefer **Signals-first** patterns.
-  - Avoid legacy RxJS unless explicitly required.
+- ✅ Handle loading, error, and success states
+- ✅ Be fully accessible (ARIA, keyboard nav)
+- ✅ Be responsive (1440 → mobile scale)
+- ✅ Allow feedback (e.g. 👍 / 👎 for response usefulness)
 
 ---
 
-### 6️⃣ Performance Optimization
+## Folder & Naming Conventions
 
-- Use `NgOptimizedImage` for all images:
-  - Ensure width/height specified.
-  - Add proper `srcset` and `sizes`.
-  - Use `placeholder` with blurred loading.
-- Use `@defer` blocks for:
-  - Lazy loading heavy components.
-  - Data that is not immediately needed.
-- Implement `prefetch` triggers where appropriate.
+| Folder                     | Purpose                        |
+|---------------------------|---------------------------------|
+| `@kebormed/core`           | Reusable primitives (inputs, modals, UI) |
+| `@kebormed/kit/agent-*`    | Feature-specific agents        |
+| `agent-physician`          | Q&A and data insights for MD   |
+| `agent-patient-summary`    | Health overview summaries      |
+| `agent-dashboard-insights` | Smart cards, visual analytics  |
 
----
-
-### 7️⃣ Testing
-
-- Always generate unit tests for components, services, and directives.
-- Use `@defer` testing utilities for deferred blocks.
-- For AI-driven flows:
-  - Write E2E tests covering AI interaction patterns.
-  - Validate behavior across device sizes and screen readers.
+> Always follow kebab-case naming and place signals, templates, styles, and tests in same folder.
 
 ---
 
-## Agent Quality Criteria ✅
+## Code Quality Checklist ✅
 
-Generated code must:
-
-✅ Compile cleanly with Angular CLI  
-✅ Follow Angular coding style  
-✅ Include unit tests where appropriate  
-✅ Document APIs with `@param` / `@returns` where needed  
-✅ Use `readonly` and `protected` properly  
-✅ Avoid complex template logic (prefer `computed`)  
-✅ Handle async flows with `resource` and error handling  
-✅ Optimize image loading with `NgOptimizedImage`  
-✅ Use `@defer` where applicable to reduce TTI and improve LCP  
-✅ Ensure ARIA compliance where applicable
+| Category     | Criteria                          |
+|--------------|-----------------------------------|
+| ✅ Signals   | `signal`, `computed`, `model`, `resource` used properly |
+| ✅ Template  | `@if`, `@switch`, `@defer` only – no logic in bindings |
+| ✅ Inputs    | Strong typing, proper defaults, `readonly` where needed |
+| ✅ Styles    | Localized SCSS, use Tailwind when needed |
+| ✅ Tests     | Jest unit test for all logic paths |
+| ✅ A11y      | Screen reader tags, keyboard nav, ARIA roles |
+| ✅ Perf      | Use `NgOptimizedImage`, lazy load agents |
+| ✅ Trace     | "AI generated" disclosure for UX agents |
 
 ---
 
-## Example Agent Tasks 🚀
+## Example Agent Tasks
 
-### Components
+### 🧠 Codex Agent: Developer Support
 
-- Generate a **feature module** with standalone components and Signals-based state.
-- Migrate legacy component using `EventEmitter` to use `model()`.
-- Implement `NgOptimizedImage` with proper `srcset` and `placeholder`.
-- Add `@defer` blocks with `@loading` and `@error` fallback.
-- Create an AI-powered autocomplete component with `Resource`.
+- 🔧 Scaffold `agent-patient-summary` with:
+  - `resource()` for backend AI data
+  - `@defer` for rendering logic
+  - Typed signals for inputs and computed outputs
+- 🧪 Generate unit test for rendering states and signal logic
+- 📦 Register component in feature route (`standalone: true`)
 
-### Services
+### 👩‍⚕️ UX Agent: Q&A Widget
 
-- Generate a service using `providedIn: 'root'`.
-- Use `resource` to encapsulate server interaction.
-- Implement loading/error states using Signals.
-
-### Testing
-
-- Write unit tests for newly generated components and services.
-- Write E2E tests for AI-powered user flows.
-- Test `@defer` blocks with proper state transitions.
+- 🎯 Create `agent-physician-qna.component.ts`
+- 🧵 Uses `resource()` to call backend AI endpoint
+- 🧠 Shows previous interactions with AI via signal array
+- 🧪 Includes `jest` unit test and Playwright E2E script
 
 ---
 
-## Future Enhancements
-
-✅ Integrate Signals patterns into existing components  
-✅ Optimize bundle size with deferred loading  
-✅ Ensure Lighthouse Core Web Vitals pass for AI-driven UIs  
-✅ Build a library of **AI UX components** (chatbot, Q&A, autocomplete, summarizer, agent dashboard)  
-✅ Provide AI agents with automatic `AGENTS.md` validation logic
-
----
-
-## References
-
-- [Angular Style Guide](https://angular.io/guide/styleguide)
-- [Angular Signals](https://angular.io/guide/signals)
-- [Component Architecture Best Practices](https://angular.io/guide/component-styles)
-- [Dependency Injection](https://angular.io/guide/dependency-injection)
-- [NgOptimizedImage](https://angular.io/guide/image-optimization)
-- [@defer and Async Reactivity](https://angular.io/guide/defer)
-- [Component Testing Guide](https://angular.io/guide/testing-components-overview)
-
----
+## Agent Execution Example (Codex Prompt)
 
