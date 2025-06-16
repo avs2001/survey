@@ -19,7 +19,7 @@ describe('MultipleChoice', () => {
   it('should emit selected values', () => {
     component.toggle('A', true);
     fixture.detectChanges();
-    expect(component.value().selections).toEqual(['A']);
+    expect(component.value().selection).toEqual(['A']);
   });
 
   it('should validate min selections', () => {

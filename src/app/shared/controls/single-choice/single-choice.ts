@@ -1,9 +1,6 @@
 import { Component, Input, computed, effect, model, signal } from '@angular/core';
-
-interface SingleChoiceValue {
-  selection: string;
-  manual: string;
-}
+import type { ChoiceControl, ChoiceControlValue } from '../choice-control.interface';
+import { manualEntryError } from '../manual-entry-error';
 
 @Component({
   selector: 'app-single-choice',
@@ -12,7 +9,7 @@ interface SingleChoiceValue {
   templateUrl: './single-choice.html',
   styleUrl: './single-choice.scss'
 })
-export class SingleChoice {
+export class SingleChoice implements ChoiceControl<string> {
   @Input() name = '';
   @Input() options: string[] = [];
   @Input() required = false;
@@ -24,7 +21,9 @@ export class SingleChoice {
   protected readonly selected = signal('');
   protected readonly manualValue = signal('');
 
-  readonly value = model<SingleChoiceValue>({ selection: '', manual: '' });
+  readonly value = model<
+    ChoiceControlValue & { selection: string }
+  >({ selection: '', manual: '' });
 
   readonly selectionErrorId = `sc-selection-error-${crypto.randomUUID()}`;
   readonly manualErrorId = `sc-manual-error-${crypto.randomUUID()}`;
@@ -38,18 +37,14 @@ export class SingleChoice {
     return '';
   });
 
-  protected readonly manualError = computed(() => {
-    if (!this.allowManualEntry) return '';
-    const val = this.manualValue();
-    if (!val) return '';
-    if (this.manualMinLength && val.length < this.manualMinLength) {
-      return `Minimum length is ${this.manualMinLength}`;
-    }
-    if (this.manualMaxLength !== Infinity && val.length > this.manualMaxLength) {
-      return `Maximum length is ${this.manualMaxLength}`;
-    }
-    return '';
-  });
+  protected readonly manualError = computed(() =>
+    manualEntryError(
+      this.allowManualEntry,
+      this.manualValue(),
+      this.manualMinLength,
+      this.manualMaxLength
+    )
+  );
 
   constructor() {
     effect(() => {
