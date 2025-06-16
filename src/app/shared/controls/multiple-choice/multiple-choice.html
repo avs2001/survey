@@ -3,7 +3,7 @@
     <input
       type="checkbox"
       [checked]="selectedOptions().includes(option)"
-      (change)="toggle(option, $event.target.checked)" />
+      (change)="onToggle($event, option)" />
     {{ option }}
   </label>
 </div>
@@ -15,7 +15,7 @@
     <input
       type="text"
       [value]="manualValue()"
-      (input)="updateManual($event.target.value)" />
+      (input)="onManual($event)" />
   </label>
   @if (manualError()) {
     <p class="error">{{ manualError() }}</p>
