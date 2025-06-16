@@ -35,4 +35,22 @@ describe('SingleChoice', () => {
     fixture.detectChanges();
     expect((component as any).manualError()).toContain('Minimum length');
   });
+
+  it('should deselect option when manual value entered', () => {
+    component.allowManualEntry = true;
+    component.select('A');
+    component.updateManual('custom');
+    fixture.detectChanges();
+    expect(component.value().selection).toBe('');
+    expect(component.value().manual).toBe('custom');
+  });
+
+  it('should clear manual value when option selected', () => {
+    component.allowManualEntry = true;
+    component.updateManual('other');
+    component.select('B');
+    fixture.detectChanges();
+    expect(component.value().selection).toBe('B');
+    expect(component.value().manual).toBe('');
+  });
 });
