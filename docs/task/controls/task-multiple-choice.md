@@ -14,7 +14,7 @@ Implement the checkbox list control as described in the [SRS](../../srs.md) and 
 3. Track selected options and manual text value through signals.
 4. Validate selection count and manual entry length, showing errors with `@if`.
 5. Emit a combined value model via `model()`.
-6. Add Jest tests covering selection logic and validation rules.
+6. Add Karma tests covering selection logic and validation rules.
 
 ## Best Practices
 - Keep the template readable and free of complex logic.
