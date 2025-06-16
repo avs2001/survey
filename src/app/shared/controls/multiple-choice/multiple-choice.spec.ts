@@ -38,6 +38,14 @@ describe('MultipleChoice', () => {
     expect((component as any).manualError()).toContain('Minimum length');
   });
 
+  it('should allow manual entry to satisfy required', () => {
+    component.required = true;
+    component.allowManualEntry = true;
+    component.updateManual('custom');
+    fixture.detectChanges();
+    expect((component as any).selectionError()).toBe('');
+  });
+
   it('should render manual label', () => {
     component.allowManualEntry = true;
     fixture.detectChanges();
