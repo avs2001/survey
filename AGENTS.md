@@ -13,17 +13,16 @@ Agents are responsible for both **developer support** (code generation/refactor)
 
 ## Technology Stack
 
-| Layer              | Stack                          |
-|-------------------|---------------------------------|
-| Framework          | Angular 20                     |
-| Language           | TypeScript, SCSS, HTML         |
+| Layer              | Stack                                               |
+|-------------------|-----------------------------------------------------|
+| Framework          | Angular 20                                          |
+| Language           | TypeScript, SCSS, HTML                              |
 | Architecture       | Standalone components, feature-first, Signals-first |
-| State              | Signals (`signal`, `computed`, `effect`, `model`) |
-| Async              | `resource()` with fallback UX  |
-| Component Strategy | Control Flow, `@defer`, `@if`, `@switch` |
-| Tooling            | Angular CLI, ESLint, Prettier, Codex |
-| Libraries          | `@kebormed/core`, `@kebormed/kit` |
-| Testing            | Jest for unit tests, Playwright for E2E |
+| State              | Signals (`signal`, `computed`, `effect`, `model`)   |
+| Async              | `resource()` with fallback UX                       |
+| Component Strategy | Control Flow, `@defer`, `@if`, `@switch`            |
+| Tooling            | Angular CLI, ESLint, Prettier, Codex                |
+| Testing            | Karma for unit tests           |
 
 ---
 
@@ -41,7 +40,7 @@ Codex agents must:
 - Automatically add meaningful unit tests using Jest (inputs/outputs, computed signals, resource flows).
 - Ensure accessibility and test coverage.
 - Avoid legacy patterns (no `ngModule`, no `rxjs` unless required).
-- Use control flow directives (`@if`, `@switch`, etc.) for rendering logic, no complex inline logic in templates.
+- Use control flow directives  for rendering logic, no complex inline logic in templates.
 
 **Required Output for Every Agent Task:**
 
@@ -62,15 +61,15 @@ Codex agents must:
 
 ## Code Quality Checklist ✅
 
-| Category     | Criteria                          |
-|--------------|-----------------------------------|
+| Category     | Criteria                                                |
+|--------------|---------------------------------------------------------|
 | ✅ Signals   | `signal`, `computed`, `model`, `resource` used properly |
-| ✅ Template  | `@if`, `@switch`, `@defer` only – no logic in bindings |
+| ✅ Template  | Control flow only – no logic in bindings                     |
 | ✅ Inputs    | Strong typing, proper defaults, `readonly` where needed |
-| ✅ Styles    | Localized SCSS, use Tailwind when needed |
-| ✅ Tests     | Jest unit test for all logic paths |
-| ✅ A11y      | Screen reader tags, keyboard nav, ARIA roles |
-| ✅ Perf      | Use `NgOptimizedImage`, lazy load agents |
-| ✅ Trace     | "AI generated" disclosure for UX agents |
+| ✅ Styles    | Localized SCSS, use Tailwind when needed                |
+| ✅ Tests     | Jest unit test for all logic paths                      |
+| ✅ A11y      | Screen reader tags, keyboard nav, ARIA roles            |
+| ✅ Perf      | Use `NgOptimizedImage`, lazy load agents                |
+| ✅ Trace     | "AI generated" disclosure for UX agents                 |
 
 ---
