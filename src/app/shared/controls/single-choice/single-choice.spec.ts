@@ -28,6 +28,14 @@ describe('SingleChoice', () => {
     expect((component as any).selectionError()).toContain('required');
   });
 
+  it('should allow manual entry to satisfy required', () => {
+    component.required = true;
+    component.allowManualEntry = true;
+    component.updateManual('other');
+    fixture.detectChanges();
+    expect((component as any).selectionError()).toBe('');
+  });
+
   it('should validate manual entry length', () => {
     component.allowManualEntry = true;
     component.manualMinLength = 3;
