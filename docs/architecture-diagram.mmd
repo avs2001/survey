@@ -1,0 +1,16 @@
+flowchart TD
+  subgraph Client
+    A[Web/Mobile PWA]
+    B[Local Storage]
+  end
+  subgraph Backend
+    C[REST &\nWebSocket API]
+    D[(Database)]
+    E[Notification Service]
+  end
+  A <--> C
+  C --> D
+  C --> E
+  E -- Push notifications --> A
+  A --> B
+
