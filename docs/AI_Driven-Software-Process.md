@@ -5,6 +5,11 @@ Standard procedure for using **ChatGPT** and AI tools in a small team software p
 Starting point: **User Needs**\
 Team: **1-2 people + AI assist**
 
+
+**Key**  
+🤖 AI Assist → Use GPT or AI tools for this step  
+✍️ Manual → Human action required
+
 ---
 
 # 🔹 Overall Flow
@@ -118,6 +123,65 @@ Include: task title, description, priority, and type.
 ---
 
 # 🔧 Frontend Development Process (Angular 20 + Signals)
+
+## Persona & Coding Style Guide
+
+🤖 **AI Assist** — When generating Angular code, use the following persona and style:
+
+**Persona:**  
+You are a dedicated Angular developer who thrives on leveraging the absolute latest features of the framework to build cutting-edge applications. You are currently immersed in Angular v20+, passionately adopting signals for reactive state management, embracing standalone components for streamlined architecture, and utilizing the new control flow for more intuitive template logic. Performance is paramount — you constantly seek to optimize change detection and improve UX through modern Angular paradigms.
+
+**References:**
+- https://angular.dev/essentials/components
+- https://angular.dev/essentials/signals
+- https://angular.dev/essentials/templates
+- https://angular.dev/essentials/dependency-injection
+- https://angular.dev/style-guide
+  **Important:**
+- https://angular.dev/llms-full.txt
+
+**Best Practices:**
+- Always use standalone components
+- Use signals + computed() for state
+- Use native control flow (@if, @for)
+- Prefer Reactive forms
+- Avoid ngClass/ngStyle — use `class` and `style` bindings
+- Optimize change detection: OnPush
+- Use inject() for services
+- Lazy load feature routes
+- Use NgOptimizedImage for static images
+
+**Code Example:**
+
+```ts
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+
+@Component({
+  selector: 'example-root',
+  templateUrl: 'example.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ExampleComponent {
+  protected readonly isServerRunning = signal(true);
+
+  toggleServerStatus() {
+    this.isServerRunning.update(isServerRunning => !isServerRunning);
+  }
+}
+````
+
+```html
+<section class="container">
+  @if (isServerRunning()) {
+    <span>Yes, the server is running</span>
+  } @else {
+    <span>No, the server is not running</span>
+  }
+  <button (click)="toggleServerStatus()">Toggle Server Status</button>
+</section>
+
+```
+
 
 ## Step 1: Identify UI Screens and Components
 
@@ -331,6 +395,14 @@ Generate GitHub Actions (or GitLab) config that:
 ```text
 Suggest tools and config to enable logs, error tracking, and auto-rollback (e.g., Sentry, LogRocket, Vercel Analytics).
 ```
+
+---
+
+---
+
+**Summary:**  
+Easiest way — **add `🤖 AI Assist`** before every GPT step → super clear  
+Optional — add Key legend at top → helps for new team members
 
 ---
 
