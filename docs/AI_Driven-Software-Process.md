@@ -20,7 +20,7 @@ User Needs → GPT: Refined User Needs → GPT: User Stories → GPT: PRD → GP
 
 ---
 
-# 📌 Step 0: From User Needs to Ready for Development
+# 📌 Step 0: From User cNeeds to Ready for Development
 
 Before any development work begins, you must transform raw **User Needs** into actionable technical design. This includes:
 
@@ -44,7 +44,7 @@ Here is a list of user needs (paste). Please refine and group them by:
 **Prompt:**
 
 ```text
-Based on this list of user needs (paste), generate clear User Stories in the format:
+Based on this list of user needs `docs/user-needs.md`, generate clear User Stories in the format:
 "As a <persona>, I want to <do something>, so that <goal>."
 ```
 
@@ -57,7 +57,7 @@ Based on this list of user needs (paste), generate clear User Stories in the for
 **Prompt:**
 
 ```text
-Based on these user stories (paste), generate a PRD including:
+Based on these user stories `docs/user-stories.md`, generate a PRD including:
 - Executive summary
 - Personas
 - User stories
@@ -74,7 +74,7 @@ Based on these user stories (paste), generate a PRD including:
 **Prompt:**
 
 ```text
-Based on this PRD (paste), generate a Software Requirements Specification (SRS) including:
+Based on this PRD `docs/PRD.md`, generate a Software Requirements Specification (SRS) including:
 - Functional requirements
 - Non-functional requirements
 - Data model overview (Mermaid diagram if possible)
@@ -90,7 +90,7 @@ Based on this PRD (paste), generate a Software Requirements Specification (SRS) 
 **Prompt:**
 
 ```text
-Based on this SRS (paste), generate system architecture description and diagram (Mermaid format).
+Based on this SRS `docs/SRS.md`, generate system architecture description and diagram (Mermaid format).
 Include frontend, backend, and integration points.
 ```
 
@@ -106,7 +106,7 @@ Include frontend, backend, and integration points.
 **Prompt:**
 
 ```text
-Based on this SRS and architecture (paste), break the work into actionable tasks by:
+Based on this SRS and architecture `docs/SRS.md` and `docs/architecture.md`, break the work into actionable tasks by:
 - Frontend
 - Backend
 - Testing
@@ -188,7 +188,7 @@ export class ExampleComponent {
 **Prompt:**
 
 ```text
-Based on this PRD and SRS (paste), list all required UI screens (pages) and their components.
+Based on this PRD and SRS  ( `docs/PRD.md` and `docs/SRS.md`), list all required UI screens (pages) and their components.
 Group them as:
 - Page Name
 - Purpose
@@ -202,7 +202,7 @@ Group them as:
 **Prompt:**
 
 ```text
-Based on the list of screens and components (paste), generate a file/folder structure for Angular 20 using signals.
+Based on the list of screens and components (`docs/frontend-ui-map.md`), generate a file/folder structure for Angular 20 using signals.
 Include suggestions for:
 - Pages
 - Components
@@ -210,7 +210,8 @@ Include suggestions for:
 - Feature modules
 ```
 
-**Deliverable:** Folder layout in `/src/app/`
+**Deliverable:**  
+Save the structure in `/src/app/*`
 
 ---
 
