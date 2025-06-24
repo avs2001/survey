@@ -9,5 +9,5 @@ Include:
 Technical Constraints:
 - Use Cypress 13 with TypeScript support.
 - Tests should run in CI with artifacts for screenshots and logs.
-Dependencies: task-04, task-06, task-08, task-09
+Dependencies: task-04, task-06, task-08, task-09, task-13, task-14
 Estimated Effort: 3 days

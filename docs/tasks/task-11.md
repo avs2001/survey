@@ -9,5 +9,5 @@ Technical Constraints:
 - Follow Angular style guide and root AGENTS best practices.
 - Use only signals and OnPush change detection for components.
 - Ensure images use `NgOptimizedImage` and CSS uses semantic colors for high contrast themes.
-Dependencies: task-04, task-06, task-07, task-08, task-09, task-10
+Dependencies: task-04, task-06, task-07, task-08, task-09, task-10, task-13, task-14
 Estimated Effort: 2 days
