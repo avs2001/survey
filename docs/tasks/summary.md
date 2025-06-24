@@ -1,6 +1,6 @@
 # Task Coverage Summary
 
-This document reviews `task-01` through `task-12` from a front‑end perspective and determines how well they implement the features outlined in the PRD and SRS.
+This document reviews `task-01` through `task-14` from a front‑end perspective and determines how well they implement the features outlined in the PRD and SRS.
 
 ## Overview of Tasks
 
@@ -16,6 +16,8 @@ This document reviews `task-01` through `task-12` from a front‑end perspective
 10. **Sync Status Component** – visualizes connectivity and sync state in the header. [task-10](task-10.md)
 11. **Accessibility & Performance Audit** – audits pages, resolves issues and adds automated checks. [task-11](task-11.md)
 12. **End‑to‑End Testing** – Cypress tests for offline and real‑time scenarios. [task-12](task-12.md)
+13. **Routing & Navigation** – sets up application routes and navigation menu. [task-13](task-13.md)
+14. **List Detail Page** – combines item list, form, category filter and suggestions. [task-14](task-14.md)
 
 ## Coverage Assessment
 
@@ -27,6 +29,6 @@ The tasks collectively address the core features specified in the PRD and SRS:
 - **Notifications and reminders** – NotificationService manages push subscriptions and reminder preferences.
 - **Accessibility and performance** – dedicated audit task ensures WCAG 2.1 AA compliance and performance budgets.
 
-However, a dedicated page that composes the item list, form, category filter and suggestion panel (i.e. a **List Detail Page**) is not explicitly described. Task‑06 introduces the necessary components, but no task assembles them into a page. Router configuration and overall navigation beyond the header from task‑01 are also not spelled out. These areas may require additional tasks.
+Earlier revisions lacked a page combining the item list, form, category filter and suggestion panel, and the routing configuration was unspecified. The newly added tasks – **Routing & Navigation** and **List Detail Page** – address these gaps and complete the front‑end plan.
 
-Overall, tasks 01‑12 cover nearly all front‑end functionality for the collaborative shopping list application, with the minor gap noted above regarding the List Detail page composition and navigation setup.
+Overall, tasks 01‑14 now cover all major front‑end functionality for the collaborative shopping list application.
