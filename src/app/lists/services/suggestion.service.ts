@@ -1,6 +1,6 @@
 import { Injectable, inject, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { openDB } from 'idb';
+import { openDB, type IDBPDatabase } from 'idb';
 import { ItemService } from './item.service';
 
 @Injectable({ providedIn: 'root' })
@@ -8,7 +8,7 @@ export class SuggestionService {
   private readonly http = inject(HttpClient);
   private readonly items = inject(ItemService).items;
   private dbPromise = openDB('suggestions-db', 1, {
-    upgrade(db) {
+    upgrade(db: IDBPDatabase) {
       db.createObjectStore('suggestions');
     }
   });

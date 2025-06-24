@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { openDB } from 'idb';
+import { openDB, type IDBPDatabase } from 'idb';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
@@ -8,7 +8,7 @@ export class CategoryService {
   readonly categories = signal<string[]>([]);
 
   private dbPromise = openDB('categories-db', 1, {
-    upgrade(db) {
+    upgrade(db: IDBPDatabase) {
       db.createObjectStore('categories');
     }
   });
