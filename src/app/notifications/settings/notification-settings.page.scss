@@ -1,1 +1,12 @@
-/* TODO: style notification settings */
+.notification-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.offline {
+  color: #fff;
+  background-color: #c00;
+  padding: 0.25rem;
+  border-radius: 4px;
+}

@@ -1,1 +1,6 @@
-<p>List Detail Page</p>
+<section class="list-detail">
+  <app-category-filter [categories]="categories()"></app-category-filter>
+  <app-item-form (add)="addItem($event)"></app-item-form>
+  <app-item-list [items]="items()[route.snapshot.paramMap.get('id') || '']"></app-item-list>
+  <app-suggestion-panel [suggestions]="suggestions()"></app-suggestion-panel>
+</section>

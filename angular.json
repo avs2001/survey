@@ -31,7 +31,9 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "src/ngsw-config.json"
           },
           "configurations": {
             "production": {

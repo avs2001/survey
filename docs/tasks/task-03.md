@@ -14,3 +14,4 @@ Technical Constraints:
 - Use HTTPS for all network calls and store only necessary data offline.
 Dependencies: task-01, task-02
 Estimated Effort: 2 days
+Status: implemented

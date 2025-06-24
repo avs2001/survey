@@ -1,1 +1,11 @@
-<p>Signup Page</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+  <label>
+    Email
+    <input formControlName="email" type="email" aria-label="Email" required />
+  </label>
+  <label>
+    Password
+    <input formControlName="password" type="password" aria-label="Password" required />
+  </label>
+  <button type="submit" [disabled]="!canSubmit()">Create Account</button>
+</form>
