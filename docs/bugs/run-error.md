@@ -5,3 +5,5 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 
 Error: Schema validation failed with the following errors:
   Data path "" must NOT have additional properties(ngswConfigPath).
+
+Status: resolved
