@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Output, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-reminder-scheduler',
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Output, input, output } from '@angu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReminderSchedulerComponent {
-  readonly time = input('');
+  readonly time = signal('');
   readonly scheduled = output<string>();
 
   schedule(): void {

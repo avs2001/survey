@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Output, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-item-form',
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Output, input, output } from '@angu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemFormComponent {
-  readonly name = input('');
+  readonly name = signal('');
   readonly add = output<string>();
 
   onSubmit(): void {
