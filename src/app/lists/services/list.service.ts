@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { openDB } from 'idb';
 import { ConnectionStatusService } from '../../shell/services/connection-status.service';
@@ -26,7 +26,11 @@ export class ListService {
     if (this.connection.online()) {
       this.sync();
     }
-    this.connection.online.subscribe(o => { if (o) this.sync(); });
+    effect(() => {
+      if (this.connection.online()) {
+        this.sync();
+      }
+    });
   }
 
   private async load() {
@@ -49,10 +53,11 @@ export class ListService {
     this.syncInProgress.set(true);
     try {
       const serverLists = await this.http.get<List[]>('/lists').toPromise();
-      this.lists.set(serverLists || []);
+      const allLists = serverLists ?? [];
+      this.lists.set(allLists);
       const db = await this.dbPromise;
       const tx = db.transaction('lists', 'readwrite');
-      await Promise.all(serverLists.map(l => tx.store.put(l)));
+      await Promise.all(allLists.map(l => tx.store.put(l)));
       await tx.done;
       this.lastSync.set(new Date());
     } catch (e) {

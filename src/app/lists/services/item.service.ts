@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { openDB } from 'idb';
 import { ConnectionStatusService } from '../../shell/services/connection-status.service';
@@ -24,7 +24,11 @@ export class ItemService {
     if (this.connection.online()) {
       this.sync();
     }
-    this.connection.online.subscribe(o => { if (o) this.sync(); });
+    effect(() => {
+      if (this.connection.online()) {
+        this.sync();
+      }
+    });
   }
 
   private async load() {

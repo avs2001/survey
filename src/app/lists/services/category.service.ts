@@ -25,7 +25,7 @@ export class CategoryService {
   }
 
   async fetch() {
-    const cats = await this.http.get<string[]>('/categories').toPromise();
+    const cats = await this.http.get<string[]>('/categories').toPromise() ?? [];
     this.categories.set(cats);
     const db = await this.dbPromise;
     const tx = db.transaction('categories', 'readwrite');

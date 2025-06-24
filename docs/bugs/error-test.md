@@ -80,3 +80,5 @@ Application bundle generation failed. [2.971 seconds]
 
 
 Watch mode enabled. Watching for file changes...
+
+Status: resolved
