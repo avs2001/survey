@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { openDB } from 'idb';
+import { openDB, type IDBPDatabase } from 'idb';
 import { ConnectionStatusService } from '../../shell/services/connection-status.service';
 
 export interface List { id: string; title: string; }
@@ -16,7 +16,7 @@ export class ListService {
   readonly listErrors = signal<string | null>(null);
 
   private dbPromise = openDB('lists-db', 1, {
-    upgrade(db) {
+    upgrade(db: IDBPDatabase) {
       db.createObjectStore('lists', { keyPath: 'id' });
     }
   });
