@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemService } from '../services/item.service';
 import { ItemFormComponent } from '../components/item-form/item-form.component';
@@ -31,9 +31,11 @@ export class ListDetailPage {
   readonly categories = this.categoryService.categories;
   readonly suggestions = this.suggestionService.suggestions;
 
+  readonly listId = this.route.snapshot.paramMap.get('id') ?? '';
+  readonly listItems = computed(() => this.items()[this.listId] || []);
+
   addItem(name: string): void {
-    const listId = this.route.snapshot.paramMap.get('id') ?? '';
-    this.itemService.addItem(listId, name);
+    this.itemService.addItem(this.listId, name);
     this.suggestionService.refresh();
   }
 }

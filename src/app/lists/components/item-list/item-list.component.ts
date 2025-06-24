@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Item } from '../../services/item.service';
 
 @Component({
   selector: 'app-item-list',
@@ -7,5 +8,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemListComponent {
-  @Input() items: string[] = [];
+  @Input() items: Item[] = [];
 }

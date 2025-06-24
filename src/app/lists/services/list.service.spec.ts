@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ListService } from './list.service';
 import { ConnectionStatusService } from '../../shell/services/connection-status.service';

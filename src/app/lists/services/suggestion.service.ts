@@ -32,7 +32,7 @@ export class SuggestionService {
   }
 
   async refresh() {
-    const list = await this.http.get<string[]>('/suggestions').toPromise();
+    const list = await this.http.get<string[]>('/suggestions').toPromise() ?? [];
     this.cache.set(list);
     const db = await this.dbPromise;
     const tx = db.transaction('suggestions', 'readwrite');
