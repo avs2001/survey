@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ConnectionStatusService } from '../../services/connection-status.service';
 
 @Component({
   selector: 'app-connection-status',
@@ -7,5 +8,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConnectionStatusComponent {
-  readonly connected = input(true);
+  readonly connected = input(inject(ConnectionStatusService).online());
 }

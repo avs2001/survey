@@ -14,3 +14,4 @@ Technical Constraints:
 - Use HTTPS for all API and WebSocket communication and store only minimal item data offline.
 Dependencies: task-03
 Estimated Effort: 2 days
+Status: implemented

@@ -1,1 +1,13 @@
-/* TODO: style list overview */
+.list-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}

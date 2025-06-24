@@ -1,1 +1,7 @@
-<p>Notification Settings Page</p>
+<section class="notification-settings">
+  <app-notification-toggle [enabled]="enabled()" (toggled)="onToggle($event)"></app-notification-toggle>
+  <app-reminder-scheduler (scheduled)="onSchedule($event)"></app-reminder-scheduler>
+  @if (!online()) {
+    <div class="offline" aria-live="polite">Offline</div>
+  }
+</section>

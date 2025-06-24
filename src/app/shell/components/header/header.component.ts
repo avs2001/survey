@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ConnectionStatusService } from '../../services/connection-status.service';
+import { RouteService } from '../../services/route.service';
 
 @Component({
   selector: 'app-header',
@@ -6,4 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  protected readonly online = inject(ConnectionStatusService).online;
+  protected readonly activeRoute = inject(RouteService).activeRoute;
+}
