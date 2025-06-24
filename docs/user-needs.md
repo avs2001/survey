@@ -15,5 +15,4 @@
 - Timely reminders for new items or shopping events
 - Ability to view and edit the list offline
 - Suggestions based on frequently purchased items
-- Seamless synchronization across mobile and web devices
 - Simple interface usable by all ages
