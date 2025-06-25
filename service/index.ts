@@ -103,6 +103,7 @@ export type { SaveDataResponse } from './models/SaveDataResponse';
 export type { SaveDeviceDataRequest } from './models/SaveDeviceDataRequest';
 export type { SaveDeviceDataResponse } from './models/SaveDeviceDataResponse';
 export type { SaveParameterDataRequest } from './models/SaveParameterDataRequest';
+export type { GetHcpPatientValuesRequest } from './models/GetHcpPatientValuesRequest';
 export type { SendEmailRequest } from './models/SendEmailRequest';
 export type { SystemUserSelfUpdateRequest } from './models/SystemUserSelfUpdateRequest';
 export type { TemporaryPatientResponse } from './models/TemporaryPatientResponse';

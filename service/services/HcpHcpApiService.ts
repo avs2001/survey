@@ -18,6 +18,7 @@ import type { QueryParameterValuesResponse } from '../models/QueryParameterValue
 import type { QueryParameterValuesSummaryResponse } from '../models/QueryParameterValuesSummaryResponse';
 import type { SaveDataResponse } from '../models/SaveDataResponse';
 import type { SaveParameterDataRequest } from '../models/SaveParameterDataRequest';
+import type { GetHcpPatientValuesRequest } from '../models/GetHcpPatientValuesRequest';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 @Injectable({
@@ -149,19 +150,7 @@ export class HcpHcpApiService {
     startTimestamp,
     endTimestamp,
     q,
-  }: {
-    patientId: number,
-    xOrganizationId: any,
-    parameterKey?: Array<string>,
-    reference?: string,
-    page?: number,
-    pageSize?: number,
-    orderBy?: string,
-    direction?: string,
-    startTimestamp?: number,
-    endTimestamp?: number,
-    q?: string,
-  }): Observable<QueryParameterValuesResponse> {
+  }: GetHcpPatientValuesRequest): Observable<QueryParameterValuesResponse> {
     return __request(OpenAPI, this.http, {
       method: 'GET',
       url: '/api/hcp/patient/{patientId}/values',
@@ -204,19 +193,7 @@ export class HcpHcpApiService {
     startTimestamp,
     endTimestamp,
     q,
-  }: {
-    patientId: number,
-    xOrganizationId: any,
-    parameterKey?: Array<string>,
-    reference?: string,
-    page?: number,
-    pageSize?: number,
-    orderBy?: string,
-    direction?: string,
-    startTimestamp?: number,
-    endTimestamp?: number,
-    q?: string,
-  }): Observable<QueryParameterValuesSummaryResponse> {
+  }: GetHcpPatientValuesRequest): Observable<QueryParameterValuesSummaryResponse> {
     return __request(OpenAPI, this.http, {
       method: 'GET',
       url: '/api/hcp/patient/{patientId}/parameter-values-summary',
